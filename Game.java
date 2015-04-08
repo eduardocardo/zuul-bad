@@ -34,23 +34,25 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
+        Room entrada, salaPrincipal, salaOscura, armeria, cocina,sotano;
       
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
+        entrada = new Room("entrada de la mazmorra");
+        salaPrincipal = new Room("estas en la sala principal");
+        salaOscura = new Room("entras a una sala en la que no ves nada");
+        armeria = new Room("llegas a la armeria");
+        cocina = new Room("entras en lo que parece una cocina");
+        sotano = new Room("bajas al sotano donde no ves nada");
         
         // initialise room exits
-        outside.setExits(null, theater, lab, pub);
-        theater.setExits(null, null, null, outside);
-        pub.setExits(null, outside, null, null);
-        lab.setExits(outside, office, null, null);
-        office.setExits(null, null, null, lab);
+        entrada.setExits(salaPrincipal, null, null, null);
+        salaPrincipal.setExits(armeria,salaOscura,entrada,cocina);
+        salaOscura.setExits(null, null, null, salaPrincipal);
+        armeria.setExits(null,null, salaPrincipal, null);
+        cocina.setExits(null, salaPrincipal,null, sotano);
+        sotano.setExits(null,cocina,null,null);
 
-        currentRoom = outside;  // start game outside
+        currentRoom = entrada;  // start game outside
     }
 
     /**
@@ -81,8 +83,8 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
-        System.out.print("Exits: ");
+        System.out.println( currentRoom.getDescription());
+        System.out.print("Salidas ");
         if(currentRoom.northExit != null) {
             System.out.print("north ");
         }
@@ -108,7 +110,7 @@ public class Game
         boolean wantToQuit = false;
 
         if(command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
+            System.out.println("No se lo que quieres decir....");
             return false;
         }
 
