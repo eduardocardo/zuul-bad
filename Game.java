@@ -34,7 +34,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room entrada, salaPrincipal, salaOscura, armeria, cocina,sotano;
+        Room entrada, salaPrincipal, salaOscura, armeria, cocina,sotano,salaSecreta,entradaSecreta;
       
         // create the rooms
         entrada = new Room("entrada de la mazmorra");
@@ -43,14 +43,18 @@ public class Game
         armeria = new Room("llegas a la armeria");
         cocina = new Room("entras en lo que parece una cocina");
         sotano = new Room("bajas al sotano donde no ves nada");
+        salaSecreta = new Room("tras pasar por un hueco pequeño llegas a una sala secreta");
+        entradaSecreta = new Room("has encontrado una entrada secreta");
         
         // initialise room exits
-        entrada.setExits(salaPrincipal, null, null, null);
-        salaPrincipal.setExits(armeria,salaOscura,entrada,cocina);
-        salaOscura.setExits(null, null, null, salaPrincipal);
-        armeria.setExits(null,null, salaPrincipal, null);
-        cocina.setExits(null, salaPrincipal,null, sotano);
-        sotano.setExits(null,cocina,null,null);
+        entrada.setExits(salaPrincipal, null, null, null,null);
+        salaPrincipal.setExits(armeria,salaOscura,entrada,cocina,null);
+        salaOscura.setExits(null, null, null, salaPrincipal,salaSecreta);
+        armeria.setExits(null,null, salaPrincipal, null,null);
+        cocina.setExits(null, salaPrincipal,null, sotano,null);
+        sotano.setExits(null,cocina,null,null,entradaSecreta);
+        salaSecreta.setExits(null,null,null,null,null);
+        entradaSecreta.setExits(null,null,null,null,null);
 
         currentRoom = entrada;  // start game outside
     }
@@ -84,21 +88,7 @@ public class Game
         System.out.println("Type 'help' if you need help.");
         System.out.println();
         printLocationInfo();
-//         System.out.println( currentRoom.getDescription());
-//         System.out.print("Salidas ");
-//         if(currentRoom.northExit != null) {
-//             System.out.print("north ");
-//         }
-//         if(currentRoom.eastExit != null) {
-//             System.out.print("east ");
-//         }
-//         if(currentRoom.southExit != null) {
-//             System.out.print("south ");
-//         }
-//         if(currentRoom.westExit != null) {
-//             System.out.print("west ");
-//         }
-//         System.out.println();
+
     }
 
     /**
@@ -173,6 +163,9 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
+        if(direction.equals("southEast")) {
+            nextRoom = currentRoom.southEastExit;
+        }
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -180,21 +173,7 @@ public class Game
         else {
             currentRoom = nextRoom;
             printLocationInfo();
-//             System.out.println("You are " + currentRoom.getDescription());
-//             System.out.print("Exits: ");
-//             if(currentRoom.northExit != null) {
-//                 System.out.print("north ");
-//             }
-//             if(currentRoom.eastExit != null) {
-//                 System.out.print("east ");
-//             }
-//             if(currentRoom.southExit != null) {
-//                 System.out.print("south ");
-//             }
-//             if(currentRoom.westExit != null) {
-//                 System.out.print("west ");
-//             }
-//             System.out.println();
+
         }
     }
 
@@ -233,6 +212,9 @@ public class Game
         }
         if(currentRoom.westExit != null) {
             System.out.print("west ");
+        }
+        if(currentRoom.southEastExit != null) {
+            System.out.print("southEast ");
         }
         System.out.println();
     }
