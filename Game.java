@@ -34,7 +34,7 @@ public class Game
      */
     private void createRooms()
     {
-        Room entrada, salaPrincipal, salaOscura, armeria, cocina,sotano,salaSecreta,entradaSecreta;
+        Room entrada, salaPrincipal, salaOscura, armeria, cocina,despensa,calabozo,tunel;
       
         // create the rooms
         entrada = new Room("entrada de la mazmorra");
@@ -42,19 +42,19 @@ public class Game
         salaOscura = new Room("entras a una sala en la que no ves nada");
         armeria = new Room("llegas a la armeria");
         cocina = new Room("entras en lo que parece una cocina");
-        sotano = new Room("bajas al sotano donde no ves nada");
-        salaSecreta = new Room("tras pasar por un hueco pequeño llegas a una sala secreta");
-        entradaSecreta = new Room("has encontrado una entrada secreta");
+        despensa = new Room("te encuentras en la despensa");
+        calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
+        tunel = new Room("has encontrado un tunel en el que no ves nada");
         
         // initialise room exits
         entrada.setExits(salaPrincipal, null, null, null,null);
-        salaPrincipal.setExits(armeria,salaOscura,entrada,cocina,null);
-        salaOscura.setExits(null, null, null, salaPrincipal,salaSecreta);
+        salaPrincipal.setExits(armeria,calabozo,entrada,cocina,null);
+        calabozo.setExits(null, null, null, salaPrincipal,salaOscura);
         armeria.setExits(null,null, salaPrincipal, null,null);
-        cocina.setExits(null, salaPrincipal,null, sotano,null);
-        sotano.setExits(null,cocina,null,null,entradaSecreta);
-        salaSecreta.setExits(null,null,null,null,null);
-        entradaSecreta.setExits(null,null,null,null,null);
+        cocina.setExits(null, salaPrincipal,null,despensa,null);
+        despensa.setExits(null,cocina,null,null,tunel);
+        salaOscura.setExits(null,null,null,null,null);
+        tunel.setExits(null,null,null,null,null);
 
         currentRoom = entrada;  // start game outside
     }
