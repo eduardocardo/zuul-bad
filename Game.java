@@ -47,14 +47,27 @@ public class Game
         tunel = new Room("has encontrado un tunel en el que no ves nada");
         
         // initialise room exits
-        entrada.setExits(salaPrincipal, null, null, null,null,null);
-        salaPrincipal.setExits(armeria,calabozo,entrada,cocina,null,null);
-        calabozo.setExits(null, null, null, salaPrincipal,salaOscura,null);
-        armeria.setExits(null,null, salaPrincipal, null,null,null);
-        cocina.setExits(null, salaPrincipal,null,despensa,null,null);
-        despensa.setExits(null,cocina,null,null,tunel,null);
-        salaOscura.setExits(null,null,null,null,null,calabozo);
-        tunel.setExits(null,null,null,null,null,despensa);
+        entrada.setExit("north",salaPrincipal);
+        salaPrincipal.setExit("north",armeria);
+        salaPrincipal.setExit("east",calabozo);
+        salaPrincipal.setExit("south",entrada);
+        salaPrincipal.setExit("west",cocina);
+        calabozo.setExit("west",salaPrincipal);
+        calabozo.setExit("southEast",salaOscura);
+        armeria.setExit("south",salaPrincipal);
+        cocina.setExit("east",salaPrincipal);
+        cocina.setExit("west",despensa);
+        despensa.setExit("east",cocina);
+        despensa.setExit("southEast",tunel);
+        salaOscura.setExit("northWest",calabozo);
+        tunel.setExit("northWest",despensa);
+//         salaPrincipal.setExits(armeria,calabozo,entrada,cocina,null,null);
+//         calabozo.setExits(null, null, null, salaPrincipal,salaOscura,null);
+//         armeria.setExits(null,null, salaPrincipal, null,null,null);
+//         cocina.setExits(null, salaPrincipal,null,despensa,null,null);
+//         despensa.setExits(null,cocina,null,null,tunel,null);
+//         salaOscura.setExits(null,null,null,null,null,calabozo);
+//         tunel.setExits(null,null,null,null,null,despensa);
 
         currentRoom = entrada;  // start game outside
     }
