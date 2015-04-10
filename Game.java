@@ -1,3 +1,4 @@
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -19,6 +20,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+   
         
     /**
      * Create the game and initialise its internal map.
@@ -27,6 +29,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+       
     }
 
     /**
@@ -46,6 +49,7 @@ public class Game
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
         tunel = new Room("has encontrado un tunel en el que no ves nada");
         
+                
         // initialise room exits
         entrada.setExit("north",salaPrincipal);
         salaPrincipal.setExit("north",armeria);
@@ -194,10 +198,8 @@ public class Game
      */
     private void printLocationInfo()
     {
-        System.out.println(currentRoom.getDescription());
-        
-        System.out.println(currentRoom.getExitString());
-
-         System.out.println();
+        System.out.println(currentRoom.getLongDescription());
+       
+        System.out.println();
     }
 }
