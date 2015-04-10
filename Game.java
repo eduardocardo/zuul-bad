@@ -47,14 +47,14 @@ public class Game
         tunel = new Room("has encontrado un tunel en el que no ves nada");
         
         // initialise room exits
-        entrada.setExits(salaPrincipal, null, null, null,null);
-        salaPrincipal.setExits(armeria,calabozo,entrada,cocina,null);
-        calabozo.setExits(null, null, null, salaPrincipal,salaOscura);
-        armeria.setExits(null,null, salaPrincipal, null,null);
-        cocina.setExits(null, salaPrincipal,null,despensa,null);
-        despensa.setExits(null,cocina,null,null,tunel);
-        salaOscura.setExits(null,null,null,null,null);
-        tunel.setExits(null,null,null,null,null);
+        entrada.setExits(salaPrincipal, null, null, null,null,null);
+        salaPrincipal.setExits(armeria,calabozo,entrada,cocina,null,null);
+        calabozo.setExits(null, null, null, salaPrincipal,salaOscura,null);
+        armeria.setExits(null,null, salaPrincipal, null,null,null);
+        cocina.setExits(null, salaPrincipal,null,despensa,null,null);
+        despensa.setExits(null,cocina,null,null,tunel,null);
+        salaOscura.setExits(null,null,null,null,null,calabozo);
+        tunel.setExits(null,null,null,null,null,despensa);
 
         currentRoom = entrada;  // start game outside
     }
@@ -151,21 +151,22 @@ public class Game
 
         // Try to leave current room.
         Room nextRoom = null;
-        if(direction.equals("north")) {
-            nextRoom = currentRoom.northExit;
-        }
-        if(direction.equals("east")) {
-            nextRoom = currentRoom.eastExit;
-        }
-        if(direction.equals("south")) {
-            nextRoom = currentRoom.southExit;
-        }
-        if(direction.equals("west")) {
-            nextRoom = currentRoom.westExit;
-        }
-        if(direction.equals("southEast")) {
-            nextRoom = currentRoom.southEastExit;
-        }
+        nextRoom = currentRoom.getExit(direction);
+//         if(direction.equals("north")) {
+//             nextRoom = currentRoom.northExit;
+//         }
+//         if(direction.equals("east")) {
+//             nextRoom = currentRoom.eastExit;
+//         }
+//         if(direction.equals("south")) {
+//             nextRoom = currentRoom.southExit;
+//         }
+//         if(direction.equals("west")) {
+//             nextRoom = currentRoom.westExit;
+//         }
+//         if(direction.equals("southEast")) {
+//             nextRoom = currentRoom.southEastExit;
+//         }
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -200,22 +201,23 @@ public class Game
     private void printLocationInfo()
     {
         System.out.println(currentRoom.getDescription());
-        System.out.print("Salidas ");
-        if(currentRoom.northExit != null) {
-            System.out.print("north ");
-        }
-        if(currentRoom.eastExit != null) {
-            System.out.print("east ");
-        }
-        if(currentRoom.southExit != null) {
-            System.out.print("south ");
-        }
-        if(currentRoom.westExit != null) {
-            System.out.print("west ");
-        }
-        if(currentRoom.southEastExit != null) {
-            System.out.print("southEast ");
-        }
-        System.out.println();
+        
+        System.out.println(currentRoom.getExitString());
+//         if(currentRoom.northExit != null) {
+//             System.out.print("north ");
+//         }
+//         if(currentRoom.eastExit != null) {
+//             System.out.print("east ");
+//         }
+//         if(currentRoom.southExit != null) {
+//             System.out.print("south ");
+//         }
+//         if(currentRoom.westExit != null) {
+//             System.out.print("west ");
+//         }
+//         if(currentRoom.southEastExit != null) {
+//             System.out.print("southEast ");
+//         }
+         System.out.println();
     }
 }

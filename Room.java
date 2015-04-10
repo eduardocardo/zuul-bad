@@ -14,12 +14,13 @@
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
-    public Room southEastExit;
+    private String description;
+    private Room northExit;
+    private Room southExit;
+    private Room eastExit;
+    private Room westExit;
+    private Room southEastExit;
+    private Room northWestExit;
 
     /**
      * Create a room described "description". Initially, it has
@@ -40,7 +41,7 @@ public class Room
      * @param south The south exit.
      * @param west The west exit.
      */
-    public void setExits(Room north, Room east, Room south, Room west,Room southEast) 
+    public void setExits(Room north, Room east, Room south, Room west,Room southEast,Room northWest) 
     {
         if(north != null)
             northExit = north;
@@ -51,7 +52,9 @@ public class Room
         if(west != null)
             westExit = west;
         if(southEast != null)
-           southEastExit = southEast;
+            southEastExit = southEast;
+        if(northWest != null)
+            northWestExit = northWest;
     }
 
     /**
@@ -62,4 +65,72 @@ public class Room
         return description;
     }
 
+    /**
+     * Metodo que devuelve un objeto tipo Room a partir de una cadena que representa
+     * una direccion
+     * @param direccion es la direccion a la que se desplaza
+     * @return el objeto tipo Room asociado a esa salida o null si no hay ninguna
+     */
+    public Room getExit(String direccion)
+    {
+        Room exit = null;
+        switch(direccion)
+        {
+            case "north":
+            exit = northExit;
+            break;
+            case "east":
+            exit = eastExit;
+            break;
+            case "south":
+            exit = southExit;
+            break;
+            case "west":
+            exit = westExit;
+            break;
+            case "southEast":
+            exit = southEastExit;
+            break;
+            case "northWest":
+            exit = northWestExit;
+            break;
+        }
+        return exit;
+    }
+
+    /**
+     * Return a description of the room's exits.
+     * For example: "Exits: north east west"
+     *
+     * @ return A description of the available exits.
+     */
+    public String getExitString()
+    {
+        String exit ="Exits :";
+        if(northExit != null)
+        {
+            exit += "north" + " ";
+        }
+        if(eastExit != null)
+        {
+            exit += "east" + " ";
+        }
+        if(southExit != null)
+        {
+            exit += "south" + " ";
+        }
+        if(westExit != null)
+        {
+            exit += "west" + " ";
+        }
+        if(southEastExit != null)
+        {
+            exit += "southEast" + " ";
+        }
+        if(northWestExit != null)
+        {
+            exit += "northWest";
+        }
+        return exit;
+    }
 }
