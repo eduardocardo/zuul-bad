@@ -40,7 +40,7 @@ public class Game
         Room entrada, salaPrincipal, salaOscura, armeria, cocina,despensa,calabozo,tunel;
       
         // create the rooms
-        entrada = new Room("entrada de la mazmorra");
+        entrada = new Room("entrada de la torre");
         salaPrincipal = new Room("estas en la sala principal");
         salaOscura = new Room("entras a una sala en la que no ves nada");
         armeria = new Room("llegas a la armeria");
@@ -126,6 +126,10 @@ public class Game
         }
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
+        }
+        else if(commandWord.equals("look"))
+        {
+           System.out.println(currentRoom.getLongDescription());
         }
 
         return wantToQuit;

@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Set;
 /**
  * 
  * Class Room - a room in an adventure game.
@@ -49,29 +50,8 @@ public class Room
      */
     public Room getExit(String direccion)
     {
-        Room exit = null;
-        switch(direccion)
-        {
-            case "north":
-            exit = exits.get("north");
-            break;
-            case "east":
-            exit = exits.get("east");
-            break;
-            case "south":
-            exit = exits.get("south");
-            break;
-            case "west":
-            exit = exits.get("west");
-            break;
-            case "southEast":
-            exit = exits.get("southEast");
-            break;
-            case "northWest":
-            exit = exits.get("northWest");
-            break;
-        }
-        return exit;
+       
+        return exits.get(direccion);
     }
 
     /**
@@ -82,32 +62,14 @@ public class Room
      */
     public String getExitString()
     {
-        String exit ="Exits :";
-        if(exits.get("north") != null)
+        Set<String> nombresDirecciones = exits.keySet();
+        String posiblesSalidas ="Exits: ";
+        for(String salidas : nombresDirecciones)
         {
-            exit += "north" + " ";
+            posiblesSalidas += salidas + " ";
         }
-        if(exits.get("east")!= null)
-        {
-            exit += "east" + " ";
-        }
-        if(exits.get("south") != null)
-        {
-            exit += "south" + " ";
-        }
-        if(exits.get("west") != null)
-        {
-            exit += "west" + " ";
-        }
-        if(exits.get("southEast") != null)
-        {
-            exit += "southEast" + " ";
-        }
-        if(exits.get("northWest") != null)
-        {
-            exit += "northWest";
-        }
-        return exit;
+        return posiblesSalidas;
+
     }
 
     /**
