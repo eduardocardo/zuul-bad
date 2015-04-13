@@ -20,6 +20,10 @@ public class Room
     private String description;
 
     private HashMap<String,Room> exits;
+    //representa un objeto existente en la habitacion
+    private String item;
+    //indica el peso de un objeto existente en la habitacion
+    private float pesoItem;
 
     /**
      * Create a room described "description". Initially, it has
@@ -27,10 +31,12 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    public Room(String description,String objeto,float peso) 
     {
         this.description = description;
         exits = new HashMap<String,Room>();
+        item =objeto;
+        pesoItem = peso;
 
     }
 
@@ -50,7 +56,7 @@ public class Room
      */
     public Room getExit(String direccion)
     {
-       
+
         return exits.get(direccion);
     }
 
@@ -90,7 +96,20 @@ public class Room
      */
     public String getLongDescription()
     {
-        String description = getDescription() + "\n" + getExitString();
+        String description = getDescription() + "\n" + getInfoItem() + "\n" + getExitString();
         return description;
+    }
+
+    /**
+     * Metodo que muestra informacion de los objetos existentes en la habitacion
+     */
+    public String getInfoItem()
+    {
+        String info = " ";
+        if(item != null)
+        {
+             info = "En la habitacion ves " + item + " cuyo peso es " + pesoItem;
+        }
+        return info;
     }
 }

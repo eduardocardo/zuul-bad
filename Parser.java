@@ -64,7 +64,7 @@ public class Parser
     }
     
     /**
-     * 
+     * Metodo que muestra por pantalla todos los comandos disponibles
      */
     public void allCommands()
     {
