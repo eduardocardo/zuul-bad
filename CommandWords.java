@@ -39,5 +39,16 @@ public class CommandWords
         return false;
     }
 
-  
+      /**
+     * Print all valid commands to System.out
+     */
+    public void showAll()
+    {
+        String allCommands =" ";
+        for(int i = 0;i < validCommands.length;i++)
+        {
+            allCommands += validCommands[i] + " ";
+        }
+        System.out.println(allCommands);
+    }
 }
