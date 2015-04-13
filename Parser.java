@@ -66,8 +66,8 @@ public class Parser
     /**
      * 
      */
-    public CommandWords getCommandA()
+    public void allCommands()
     {
-        return commands;
+         commands.showAll();
     }
 }
