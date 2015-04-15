@@ -68,6 +68,7 @@ public class Game
 
 
         currentRoom = entrada;  // start game outside
+        
     }
 
     /**
@@ -86,6 +87,7 @@ public class Game
             finished = processCommand(command);
         }
         System.out.println("Thank you for playing.  Good bye.");
+        stacks.push(currentRoom);
     }
 
     /**
@@ -174,13 +176,15 @@ public class Game
         
         // Try to leave current room.
         Room nextRoom = null;
-        stacks.push(currentRoom);
+        
         nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
+            
             System.out.println("There is no door!");
         }
         else {
+            stacks.push(currentRoom);
             currentRoom = nextRoom;
             printLocationInfo();
             
@@ -223,7 +227,11 @@ public class Game
         if(!stacks.empty())
         {
             currentRoom =stacks.pop();
-            System.out.println(currentRoom.getLongDescription());
+            printLocationInfo();
+        }
+        else
+        {
+            System.out.println("No puedes volver a atras");
         }
     }
 }
