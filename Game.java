@@ -40,15 +40,16 @@ public class Game
         Room entrada, salaPrincipal, salaOscura, armeria, cocina,despensa,calabozo,tunel;
       
         // create the rooms
-        entrada = new Room("entrada de la torre",null,0f);
-        salaPrincipal = new Room("estas en la sala principal",null,0f);
-        salaOscura = new Room("entras a una sala en la que no ves nada",null,0f);
-        armeria = new Room("llegas a la armeria","espada",2.5f);
-        cocina = new Room("entras en lo que parece una cocina","sarte",1.5f);
-        despensa = new Room("te encuentras en la despensa",null,0f);
-        calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias",null,0f);
-        tunel = new Room("has encontrado un tunel en el que no ves nada",null,0f);
-        
+        entrada = new Room("entrada de la torre");
+        salaPrincipal = new Room("estas en la sala principal");
+        salaOscura = new Room("entras a una sala en la que no ves nada");
+        armeria = new Room("llegas a la armeria");
+        cocina = new Room("entras en lo que parece una cocina");
+        despensa = new Room("te encuentras en la despensa");
+        calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
+        tunel = new Room("has encontrado un tunel en el que no ves nada");
+        Item espada = new Item("espada","vieja y afilada",2.5f);
+        armeria.addItem(espada);
                 
         // initialise room exits
         entrada.setExit("north",salaPrincipal);

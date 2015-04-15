@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Set;
+import java.util.ArrayList;
 /**
  * 
  * Class Room - a room in an adventure game.
@@ -20,10 +21,9 @@ public class Room
     private String description;
 
     private HashMap<String,Room> exits;
-    //representa un objeto existente en la habitacion
-    private String item;
-    //indica el peso de un objeto existente en la habitacion
-    private float pesoItem;
+
+    //arrayList que representa los items que puede haber en la habitacion
+    private ArrayList<Item> items;
 
     /**
      * Create a room described "description". Initially, it has
@@ -31,12 +31,11 @@ public class Room
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description,String objeto,float peso) 
+    public Room(String description) 
     {
         this.description = description;
         exits = new HashMap<String,Room>();
-        item =objeto;
-        pesoItem = peso;
+        items = new ArrayList();
 
     }
 
@@ -96,20 +95,24 @@ public class Room
      */
     public String getLongDescription()
     {
-        String description = getDescription() + "\n" + getInfoItem() + "\n" + getExitString();
+        String description = getDescription();
+        if(items.size() > 0)
+        {
+            for(Item it : items)
+            {
+                description +=  "\n" + "hay un objeto" + " " + it.toString();
+            }
+        }
+        description +=  "\n" + getExitString();
         return description;
     }
 
     /**
-     * Metodo que muestra informacion de los objetos existentes en la habitacion
+     * Metodo que añade un objeto de tipo Item al arrayList
+     * @param item es el objeto que se añade al arrayList
      */
-    public String getInfoItem()
+    public void addItem(Item it)
     {
-        String info = " ";
-        if(item != null)
-        {
-             info = "En la habitacion ves " + item + " cuyo peso es " + pesoItem;
-        }
-        return info;
+        items.add(it);
     }
 }
