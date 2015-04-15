@@ -20,8 +20,9 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-   
-        
+    //almacena la ultima habitacion visitada
+    private Room ultimaHabitacion;
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -29,7 +30,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
-       
+
     }
 
     /**
@@ -38,7 +39,7 @@ public class Game
     private void createRooms()
     {
         Room entrada, salaPrincipal, salaOscura, armeria, cocina,despensa,calabozo,tunel;
-      
+
         // create the rooms
         entrada = new Room("entrada de la torre");
         salaPrincipal = new Room("estas en la sala principal");
@@ -50,7 +51,7 @@ public class Game
         tunel = new Room("has encontrado un tunel en el que no ves nada");
         Item espada = new Item("espada","vieja y afilada",2.5f);
         armeria.addItem(espada);
-                
+
         // initialise room exits
         entrada.setExit("north",salaPrincipal);
         salaPrincipal.setExit("north",armeria);
@@ -66,8 +67,7 @@ public class Game
         despensa.setExit("southEast",tunel);
         salaOscura.setExit("northWest",calabozo);
         tunel.setExit("northWest",despensa);
-       
-        
+
 
         currentRoom = entrada;  // start game outside
     }
@@ -81,7 +81,7 @@ public class Game
 
         // Enter the main command loop.  Here we repeatedly read commands and
         // execute them until the game is over.
-                
+
         boolean finished = false;
         while (! finished) {
             Command command = parser.getCommand();
@@ -130,11 +130,15 @@ public class Game
         }
         else if(commandWord.equals("look"))
         {
-           System.out.println(currentRoom.getLongDescription());
+            System.out.println(currentRoom.getLongDescription());
         }
         else if(commandWord.equals("eat"))
         {
             System.out.println("You have eaten now and you are not hungry any more");
+        }
+        else if(commandWord.equals("back"))
+        {
+            backRoom();
         }
 
         return wantToQuit;
@@ -169,11 +173,10 @@ public class Game
         }
 
         String direction = command.getSecondWord();
-
+        ultimaHabitacion = currentRoom;
         // Try to leave current room.
         Room nextRoom = null;
         nextRoom = currentRoom.getExit(direction);
-
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -183,6 +186,7 @@ public class Game
             printLocationInfo();
 
         }
+        
     }
 
     /** 
@@ -200,7 +204,7 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
-    
+
     /**
      * Metodo que muestra por pantalla informacion de la sala en la que estas
      * y las posibles salidas que tiene la sala
@@ -208,7 +212,19 @@ public class Game
     private void printLocationInfo()
     {
         System.out.println(currentRoom.getLongDescription());
-       
+
         System.out.println();
+    }
+    
+    /**
+     * Metodo que vuelve a la habitacion anterior
+     */
+    private void backRoom()
+    {
+        if(ultimaHabitacion != null)
+        {
+            currentRoom = ultimaHabitacion;
+            System.out.println(currentRoom.getLongDescription());
+        }
     }
 }
