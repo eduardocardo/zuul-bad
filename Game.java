@@ -130,7 +130,7 @@ public class Game
         }
         else if(commandWord.equals("look"))
         {
-            System.out.println(currentRoom.getLongDescription());
+            printLocationInfo();
         }
         else if(commandWord.equals("eat"))
         {
