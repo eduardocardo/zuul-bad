@@ -1,4 +1,5 @@
 import java.util.Stack;
+import java.util.ArrayList;
 /**
  * Esta clase representa un jugador que entra en la torre
  * 
@@ -12,19 +13,22 @@ public class Player
     //coleccion que almacena las habitaciones por las que ha pasado el jugador
     private Stack<Room>stacks;
 
+
     /**
      * Constructor for objects of class Player
+     * @param pesoMax es el peso maximo que puede llevar el jugador
      */
     public Player()
     {
         stacks = new Stack();
+
     }
 
     /**
      *Metodo que situa al jugador en una habitacion determinada
      *@param room es la habitacion en la que aparecera el jugador
      */
-    public void aparecerEnLaHabitacion(Room room)
+    public void setCurrentRoom(Room room)
     {
         currentRoom = room;
     }

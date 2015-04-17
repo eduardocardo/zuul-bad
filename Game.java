@@ -67,7 +67,7 @@ public class Game
         salaOscura.setExit("northWest",calabozo);
         tunel.setExit("northWest",despensa);
 
-        player.aparecerEnLaHabitacion(entrada); // start game outside
+        player.setCurrentRoom(entrada); // start game outside
     }
 
     /**
@@ -99,7 +99,7 @@ public class Game
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        printLocationInfo();
+        player.look();
 
     }
 
@@ -182,14 +182,6 @@ public class Game
         }
     }
 
-    /**
-     * Metodo que muestra por pantalla informacion de la sala en la que estas
-     * y las posibles salidas que tiene la sala
-     */
-    private void printLocationInfo()
-    {
-        player.look();
-        System.out.println();
-    }
+    
 
 }
