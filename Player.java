@@ -17,7 +17,7 @@ public class Player
      */
     public Player()
     {
-        
+        stacks = new Stack();
     }
 
     /**
@@ -73,7 +73,7 @@ public class Player
      /**
      * Metodo que vuelve a la habitacion anterior
      */
-    private void backRoom()
+    public void backRoom()
     {
         if(!stacks.empty())
         {
