@@ -46,8 +46,10 @@ public class Game
         despensa = new Room("te encuentras en la despensa");
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
         tunel = new Room("has encontrado un tunel en el que no ves nada");
-        Item espada = new Item("espada","vieja y afilada",100f);
+        Item espada = new Item("espada","vieja y afilada",2.5f,true);
+        Item mesa = new Item("mesa","llena de polvo",5f,false);
         armeria.addItem(espada);
+        salaPrincipal.addItem(mesa);
 
         // initialise room exits
         entrada.setExit("north",salaPrincipal);
@@ -154,10 +156,17 @@ public class Game
             Room room = player.getCurrentRoom();
 
             String item = command.getSecondWord();
+            //se obtiene el peso del objeto a coger
             float pesoIt = room.getItem(item).getPeso();
-            if((pesoIt + player.getPeso()) < player.getPesoMax())
+            //se comprueba si el objeto se puede coger
+            boolean coger = room.getItem(item).getCoger();
+            if((pesoIt + player.getPeso()) < player.getPesoMax() && coger)
             {
                 player.take(item);
+            }
+            else if((pesoIt + player.getPeso()) < player.getPesoMax() && !coger)
+            {
+                System.out.println("Ese objeto no se puede coger");
             }
             else
             {

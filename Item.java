@@ -13,6 +13,8 @@ public class Item
     private String descripcion;
     //indica el peso del item en kg
     private float peso;
+    //indica si el objeto se puede coger
+    private boolean coger;
 
     /**
      *  Constructor de la clase Item
@@ -20,7 +22,7 @@ public class Item
      *  @param descrip es la decripcion del objeto
      *  @param peso es el peso que tiene el objeto,por defecto 1 kg
      */
-    public Item(String nombre,String descrip,float peso)
+    public Item(String nombre,String descrip,float peso,boolean coger)
     {
         this.nombre = nombre;
         this.descripcion = descrip;
@@ -32,6 +34,7 @@ public class Item
         {
             peso = 1;
         }
+        this.coger = coger;
     }
 
     /**
@@ -59,6 +62,15 @@ public class Item
     public float getPeso()
     {
         return peso;
+    }
+    
+    /**
+     * Metodo que devuelve se puede coger o no
+     * @return true si el objeto se puede coger,false si no se puede
+     */
+    public boolean getCoger()
+    {
+        return coger;
     }
 
     /**
