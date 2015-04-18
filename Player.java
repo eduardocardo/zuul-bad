@@ -30,6 +30,33 @@ public class Player
         this.peso = 0;
         this.pesoMax = pesoMax; 
     }
+    
+    /**
+     * Metodo que devuelve el peso actual que lleva el jugador
+     * @return el peso en kg que lleva actualmente el jugador
+     */
+    public float getPeso()
+    {
+        return peso;
+    }
+    
+    /**
+     * Metodo que devuelve la habitacion en la que se encuentra el jugador
+     * @return la habitacion en la que se encuentra el jugador
+     */
+    public Room getCurrentRoom()
+    {
+        return currentRoom;
+    }
+    
+    /**
+     * Metodo que devuelve el peso maximo que puede llevar el jugador
+     * @return el peso maximo en kg
+     */
+    public float getPesoMax()
+    {
+        return pesoMax;
+    }
 
     /**
      *Metodo que situa al jugador en una habitacion determinada

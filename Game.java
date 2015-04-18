@@ -28,10 +28,8 @@ public class Game
         player = new Player(10f);
         createRooms();
         parser = new Parser();
-        
-          
-    }
 
+    }
     /**
      * Create all the rooms and link their exits together.
      */
@@ -48,7 +46,7 @@ public class Game
         despensa = new Room("te encuentras en la despensa");
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
         tunel = new Room("has encontrado un tunel en el que no ves nada");
-        Item espada = new Item("espada","vieja y afilada",2.5f);
+        Item espada = new Item("espada","vieja y afilada",100f);
         armeria.addItem(espada);
 
         // initialise room exits
@@ -86,7 +84,7 @@ public class Game
             finished = processCommand(command);
         }
         System.out.println("Thank you for playing.  Good bye.");
-        
+
     }
 
     /**
@@ -148,17 +146,27 @@ public class Game
         }
         else if(commandWord.equals("take"))
         {
-             if(!command.hasSecondWord()) {
+            if(!command.hasSecondWord()) {
                 // if there is no second word, we don't know where to go...
                 System.out.println("take what?");
                 return false;
             }
+            Room room = player.getCurrentRoom();
+
             String item = command.getSecondWord();
-            player.take(item);
+            float pesoIt = room.getItem(item).getPeso();
+            if((pesoIt + player.getPeso()) < player.getPesoMax())
+            {
+                player.take(item);
+            }
+            else
+            {
+                System.out.println("No puedes coger ese objeto porque superas tu limite de peso maximo");
+            }
         }
-         else if(commandWord.equals("drop"))
+        else if(commandWord.equals("drop"))
         {
-             if(!command.hasSecondWord()) {
+            if(!command.hasSecondWord()) {
                 // if there is no second word, we don't know where to go...
                 System.out.println("drop what?");
                 return false;
@@ -170,7 +178,6 @@ public class Game
         return wantToQuit;
     }
 
-    
     /**
      * Print out some help information.
      * Here we print some stupid, cryptic message and a list of the 
@@ -201,6 +208,5 @@ public class Game
         }
     }
 
-    
 
 }
