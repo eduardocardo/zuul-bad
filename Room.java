@@ -23,7 +23,7 @@ public class Room
     private HashMap<String,Room> exits;
 
     //arrayList que representa los items que puede haber en la habitacion
-    private ArrayList<Item> items;
+    private ArrayList<Item> itemsRoom;
 
     /**
      * Create a room described "description". Initially, it has
@@ -35,7 +35,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<String,Room>();
-        items = new ArrayList();
+        itemsRoom = new ArrayList();
 
     }
 
@@ -96,9 +96,9 @@ public class Room
     public String getLongDescription()
     {
         String description = getDescription();
-        if(items.size() > 0)
+        if(itemsRoom.size() > 0)
         {
-            for(Item it : items)
+            for(Item it : itemsRoom)
             {
                 description +=  "\n" + "hay un objeto" + " " + it.toString();
             }
@@ -108,11 +108,46 @@ public class Room
     }
 
     /**
-     * Metodo que añade un objeto de tipo Item al arrayList
+     * Metodo que añade un objeto de tipo Item a la coleccion de objetos en la habitacion
      * @param item es el objeto que se añade al arrayList
      */
     public void addItem(Item it)
     {
-        items.add(it);
+        itemsRoom.add(it);
+    }
+    
+    /**
+     * Metodo que elimina un item de la coleccion
+     * @param item es el objeto a eliminar
+     */
+    public void removeItem(Item it)
+    {
+        itemsRoom.remove(it);
+    }
+    
+    /**
+     * Metodo que al pasarle por parametro el nombre de un item te devuelve ese item
+     * @param name es el nombre del item que se busca
+     * @return devuelve el item correspondiente a ese nombre si se encuentra en la habitacion,si no esta devuelve null
+     */
+    public Item getItem(String name)
+    {
+        Item it = null;
+        //se considera que no se ha encontrado el item
+        boolean encontrado = false;
+        int i = 0;
+        
+        while(i <itemsRoom.size() && !encontrado)
+        {
+            //si el nombre pasado por parametro coincide con alguno de los existentes en la habitacion
+            if(itemsRoom.get(i).getNombre().equals(name))
+            {
+                //se guarda ese objeto
+                it = itemsRoom.get(i);
+                encontrado = true;
+            }
+            i++;
+        }
+        return it;
     }
 }

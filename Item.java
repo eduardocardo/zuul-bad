@@ -56,7 +56,7 @@ public class Item
      * Metodo que devuelve el peso del item
      * return el peso del item en kg
      */
-    public float peso()
+    public float getPeso()
     {
         return peso;
     }

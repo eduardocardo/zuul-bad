@@ -150,8 +150,7 @@ public class Game
         return wantToQuit;
     }
 
-    // implementations of user commands:
-
+    
     /**
      * Print out some help information.
      * Here we print some stupid, cryptic message and a list of the 
