@@ -99,7 +99,7 @@ public class Player
 
     /**
      * Metodo que coge un item y lo añade a la coleccion
-     * @param item es el objeto que coge el jugador
+     * @param item es el nombre del objeto que coge el jugador
      */
     public void take(String item)
     {
@@ -115,6 +115,8 @@ public class Player
             peso += it.getPeso();
             //se elimina de la habitacion ese item
             currentRoom.removeItem(it);
+            //se indica que se ha cogido ese item
+            System.out.println("Has cogido " + name);
         }
         else
         {
@@ -124,7 +126,7 @@ public class Player
 
     /**
      * Metodo que suelta en la habitacion un item que ya posee el jugador
-     * @param item es el objeto que quiere soltar
+     * @param item es el nombre del objeto que quiere soltar
      */
     public void drop(String nameItem)
     {
@@ -135,7 +137,7 @@ public class Player
         int i = 0;
         while(i < items.size() && !encontrado)
         {
-            if(name == items.get(i).getNombre())
+            if(items.get(i).getNombre().equals(name))
             {
                 //si nombre pasado por parametro coincide con el nombre de algun item
                 //que tiene el jugador en su inventario
@@ -152,6 +154,8 @@ public class Player
             peso -= item.getPeso();
             //se añade este objeto a la habitacion actual
             currentRoom.addItem(item);
+            //se indica que ha soltado el item
+            System.out.println("Has soltado " + name);
         }
         else  //no tiene ese objeto en su inventario
         {

@@ -25,7 +25,7 @@ public class Game
      */
     public Game() 
     {
-        player = new Player();
+        player = new Player(10f);
         createRooms();
         parser = new Parser();
         
@@ -145,6 +145,26 @@ public class Game
         else if(commandWord.equals("back"))
         {
             player.backRoom();
+        }
+        else if(commandWord.equals("take"))
+        {
+             if(!command.hasSecondWord()) {
+                // if there is no second word, we don't know where to go...
+                System.out.println("take what?");
+                return false;
+            }
+            String item = command.getSecondWord();
+            player.take(item);
+        }
+         else if(commandWord.equals("drop"))
+        {
+             if(!command.hasSecondWord()) {
+                // if there is no second word, we don't know where to go...
+                System.out.println("drop what?");
+                return false;
+            }
+            String item = command.getSecondWord();
+            player.drop(item);
         }
 
         return wantToQuit;
