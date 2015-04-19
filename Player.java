@@ -30,7 +30,7 @@ public class Player
         this.peso = 0;
         this.pesoMax = pesoMax; 
     }
-    
+
     /**
      * Metodo que devuelve el peso actual que lleva el jugador
      * @return el peso en kg que lleva actualmente el jugador
@@ -39,7 +39,7 @@ public class Player
     {
         return peso;
     }
-    
+
     /**
      * Metodo que devuelve la habitacion en la que se encuentra el jugador
      * @return la habitacion en la que se encuentra el jugador
@@ -48,7 +48,7 @@ public class Player
     {
         return currentRoom;
     }
-    
+
     /**
      * Metodo que devuelve el peso maximo que puede llevar el jugador
      * @return el peso maximo en kg
@@ -91,7 +91,7 @@ public class Player
 
     public void goRoom(String direccion)
     {
-        //objeto tipo Room que representa la habitacion a la que se desplaza
+        //representa la habitacion a la que se desplaza
         Room nextRoom = null;
         //se guarda la habitacion a la que se desplazaria segun la direccion del parametro
         nextRoom = currentRoom.getExit(direccion);
@@ -128,36 +128,52 @@ public class Player
      * Metodo que coge un item y lo añade a la coleccion
      * @param item es el nombre del objeto que coge el jugador
      */
-    public void take(String item)
+    public void take(String nombre)
     {
-        String name = item.toLowerCase();
-        //se comprueba si el nombre pasado por parametro coincide con algun item existente
-        //en la habitacion
-        Item it = currentRoom.getItem(name);
-        if(it != null)  //si ese objeto existe en la habitacion
+
+        //primero se comprueba si el objeto que se quiere coger existe en la habitacion
+        Item item = currentRoom.getItem(nombre);
+        if(item != null)
         {
-            //se añade el item a la coleccion
-            items.add(it);
-            //se suma el peso del item al peso que lleva el jugador
-            peso += it.getPeso();
-            //se elimina de la habitacion ese item
-            currentRoom.removeItem(it);
-            //se indica que se ha cogido ese item
-            System.out.println("Has cogido " + name);
+            //se comprueba si se supera el limite de peso maximo y si el item se puede coger
+
+            //no supera el limite de peso maximo y el objeto se puede coger
+            if((item.getPeso() + peso) <= pesoMax && item.getCoger()) 
+            {
+                //se añade el item a la coleccion
+                items.add(item);
+                //se suma el peso del item al peso que lleva el jugador
+                peso += item.getPeso();
+                //se elimina de la habitacion ese item
+                currentRoom.removeItem(item);
+                //se indica que se ha cogido ese item
+                System.out.println("Has cogido " + item.getNombre());
+            }
+            //el objeto se puede coger pero supera el limite de peso maximo
+            else if((item.getPeso() + peso) > pesoMax && item.getCoger())
+            {
+                System.out.println("No puedes coger ese objeto porque superas tu limite de peso maximo");
+            }
+            else
+            {
+                System.out.println("Ese item no se puede coger");
+            }
+
         }
         else
         {
-            System.out.println("El item que quieres coger no existe");
+            System.out.println("El objeto que quieres coger no existe");
         }
+
     }
 
     /**
      * Metodo que suelta en la habitacion un item que ya posee el jugador
      * @param item es el nombre del objeto que quiere soltar
      */
-    public void drop(String nameItem)
+    public void drop(String name)
     {
-        String name = nameItem.toLowerCase();
+
         //primero se comprueba que el jugador tiene ese item en su inventario
         Item item = null;
         boolean encontrado = false;
@@ -187,6 +203,25 @@ public class Player
         else  //no tiene ese objeto en su inventario
         {
             System.out.println("No puedes tirar un objeto que no tienes");
+        }
+    }
+
+    /**
+     * Metodo que muestra informacion sobre los objetos que tiene actualmente el jugador
+     */
+    public void infoItems()
+    {
+        System.out.println("En tu inventario tienes :");
+        if(items.size() > 0)
+        {
+            for(Item item : items)
+            {
+                System.out.println(item);
+            }
+        }
+        else
+        {
+            System.out.println("No tienes ningun item");
         }
     }
 }

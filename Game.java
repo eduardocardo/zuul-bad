@@ -30,6 +30,7 @@ public class Game
         parser = new Parser();
 
     }
+
     /**
      * Create all the rooms and link their exits together.
      */
@@ -48,8 +49,12 @@ public class Game
         tunel = new Room("has encontrado un tunel en el que no ves nada");
         Item espada = new Item("espada","vieja y afilada",2.5f,true);
         Item mesa = new Item("mesa","llena de polvo",5f,false);
+        Item antorcha = new Item("antorcha","de madera",1f,true);
+        Item olla = new Item("olla","muy oxidada",9f,true);
         armeria.addItem(espada);
         salaPrincipal.addItem(mesa);
+        salaPrincipal.addItem(antorcha);
+        cocina.addItem(olla);
 
         // initialise room exits
         entrada.setExit("north",salaPrincipal);
@@ -122,13 +127,7 @@ public class Game
             printHelp();
         }
         else if (commandWord.equals("go")) {
-            if(!command.hasSecondWord()) {
-                // if there is no second word, we don't know where to go...
-                System.out.println("Go where?");
-                return false;
-            }
-            String direction = command.getSecondWord();
-            player.goRoom(direction);
+            go(command);
         }
 
         else if (commandWord.equals("quit")) {
@@ -148,40 +147,15 @@ public class Game
         }
         else if(commandWord.equals("take"))
         {
-            if(!command.hasSecondWord()) {
-                // if there is no second word, we don't know where to go...
-                System.out.println("take what?");
-                return false;
-            }
-            Room room = player.getCurrentRoom();
-
-            String item = command.getSecondWord();
-            //se obtiene el peso del objeto a coger
-            float pesoIt = room.getItem(item).getPeso();
-            //se comprueba si el objeto se puede coger
-            boolean coger = room.getItem(item).getCoger();
-            if((pesoIt + player.getPeso()) < player.getPesoMax() && coger)
-            {
-                player.take(item);
-            }
-            else if((pesoIt + player.getPeso()) < player.getPesoMax() && !coger)
-            {
-                System.out.println("Ese objeto no se puede coger");
-            }
-            else
-            {
-                System.out.println("No puedes coger ese objeto porque superas tu limite de peso maximo");
-            }
+                take(command);
         }
         else if(commandWord.equals("drop"))
         {
-            if(!command.hasSecondWord()) {
-                // if there is no second word, we don't know where to go...
-                System.out.println("drop what?");
-                return false;
-            }
-            String item = command.getSecondWord();
-            player.drop(item);
+            drop(command);
+        }
+        else if(commandWord.equals("items"))
+        {
+            player.infoItems();
         }
 
         return wantToQuit;
@@ -217,5 +191,51 @@ public class Game
         }
     }
 
+    /**
+     * Metodo que intenta coger un item
+     * @param command es el comando que indica que tiene que coger
+     */
+    public void take(Command command)
+    {
+         if(!command.hasSecondWord()) {
+                // if there is no second word, we don't know where to go...
+                System.out.println("take what?");
+                return ;
+            }
 
+         String name = command.getSecondWord().toLowerCase();
+         player.take(name);
+    }
+    
+    /**
+     * Metodo que intenta tirar,un objeto que tiene en el inventario,en la habitacion
+     * @param command es el comando que indica que tiene que tirar
+     */
+    public void drop(Command command)
+    {
+          if(!command.hasSecondWord()) {
+                // if there is no second word, we don't know where to go...
+                System.out.println("drop what?");
+                return;
+            }
+          String item = command.getSecondWord();
+          player.drop(item);
+    }
+    
+    /**
+     * Metodo que intenta ir en una direccion indica por el parametro,si direccion no es valida
+     * muestra un mensaje de error por pantalla
+     * @param command es el comando que indica la direccion a la que quiere ir
+     */
+    public void go(Command command)
+    {
+         if(!command.hasSecondWord()) {
+                // if there is no second word, we don't know where to go...
+                System.out.println("Go where?");
+                return;
+            }
+
+         String direction = command.getSecondWord();
+         player.goRoom(direction);
+    }
 }
