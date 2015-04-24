@@ -126,11 +126,11 @@ public class Room
     }
     
     /**
-     * Metodo que al pasarle por parametro el nombre de un item te devuelve ese item
-     * @param name es el nombre del item que se busca
-     * @return devuelve el item correspondiente a ese nombre si se encuentra en la habitacion,si no esta devuelve null
+     * Metodo que al pasarle por parametro el id de un item te devuelve ese item
+     * @param idItem es el numero identificador del item que se busca
+     * @return devuelve el item correspondiente a esa id si se encuentra en la habitacion,si no esta devuelve null
      */
-    public Item getItem(String name)
+    public Item getItem(int idItem)
     {
         Item it = null;
         //se considera que no se ha encontrado el item
@@ -140,7 +140,7 @@ public class Room
         while(i <itemsRoom.size() && !encontrado)
         {
             //si el nombre pasado por parametro coincide con alguno de los existentes en la habitacion
-            if(itemsRoom.get(i).getNombre().equals(name))
+            if(itemsRoom.get(i).getId() == idItem)
             {
                 //se guarda ese objeto
                 it = itemsRoom.get(i);

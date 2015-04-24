@@ -15,6 +15,10 @@ public class Item
     private float peso;
     //indica si el objeto se puede coger
     private boolean coger;
+    //es el numero identificador del objeto
+    private int id;
+    //
+    private static int currentId = 1;
 
     /**
      *  Constructor de la clase Item
@@ -22,7 +26,7 @@ public class Item
      *  @param descrip es la decripcion del objeto
      *  @param peso es el peso que tiene el objeto,por defecto 1 kg
      */
-    public Item(String nombre,String descrip,float peso,boolean coger)
+    public Item(String nombre,String descrip,float peso,boolean coger,int id)
     {
         this.nombre = nombre;
         this.descripcion = descrip;
@@ -35,6 +39,8 @@ public class Item
             peso = 1;
         }
         this.coger = coger;
+        this.id = currentId;
+        currentId++;
     }
 
     /**
@@ -78,6 +84,14 @@ public class Item
      */
     public String toString()
     {
-        return nombre + " " + descripcion + " cuyo peso es " + peso;
+        return "(" + id + ")" + nombre + " " + descripcion + " cuyo peso es " + peso;
+    }
+    /**
+     * Metodo que devuelve el id del objeto
+     * @return el id del objeto
+     */
+    public int getId()
+    {
+        return id;
     }
 }
