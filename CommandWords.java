@@ -51,7 +51,7 @@ public class CommandWords
         return false;
     }
 
-      /**
+    /**
      * Print all valid commands to System.out
      */
     public void showAll()
@@ -63,5 +63,21 @@ public class CommandWords
             allCommands += com + " ";
         }
         System.out.println(allCommands);
+    }
+
+    /**
+     * Return the object Option associated with a word.
+     * @param commandWord The word to look up (as a string).
+     * @return the object Option correspondng to the paramater commandWord, or the object Option.UNKNOWN
+     *         if it is not a valid command word
+     */
+    public Option getCommandWord(String commandWord)
+    {
+        Option option = comandos.get("unknown");
+        if(comandos.get(commandWord)!= null)
+        {
+            option = comandos.get(commandWord);
+        }
+        return option;
     }
 }
