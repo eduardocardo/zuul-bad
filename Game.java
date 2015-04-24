@@ -47,10 +47,10 @@ public class Game
         despensa = new Room("te encuentras en la despensa");
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
         tunel = new Room("has encontrado un tunel en el que no ves nada");
-        Item espada = new Item("espada","vieja y afilada",2.5f,true);
-        Item mesa = new Item("mesa","llena de polvo",5f,false);
-        Item antorcha = new Item("antorcha","de madera",1f,true);
-        Item olla = new Item("olla","muy oxidada",9f,true);
+        Item espada = new Item("espada","vieja y afilada",2.5f,true,3);
+        Item mesa = new Item("mesa","llena de polvo",5f,false,2);
+        Item antorcha = new Item("antorcha","de madera",1f,true,1);
+        Item olla = new Item("olla","muy oxidada",9f,true,4);
         armeria.addItem(espada);
         salaPrincipal.addItem(mesa);
         salaPrincipal.addItem(antorcha);
@@ -195,7 +195,7 @@ public class Game
      * Metodo que intenta coger un item
      * @param command es el comando que indica que tiene que coger
      */
-    public void take(Command command)
+    private void take(Command command)
     {
          if(!command.hasSecondWord()) {
                 // if there is no second word, we don't know where to go...
@@ -203,7 +203,7 @@ public class Game
                 return ;
             }
 
-         String name = command.getSecondWord().toLowerCase();
+         int name = Integer.parseInt(command.getSecondWord());
          player.take(name);
     }
     
@@ -211,15 +211,18 @@ public class Game
      * Metodo que intenta tirar,un objeto que tiene en el inventario,en la habitacion
      * @param command es el comando que indica que tiene que tirar
      */
-    public void drop(Command command)
+    private void drop(Command command)
     {
           if(!command.hasSecondWord()) {
                 // if there is no second word, we don't know where to go...
                 System.out.println("drop what?");
                 return;
             }
-          String item = command.getSecondWord();
+         
+          int item = Integer.parseInt(command.getSecondWord());
+          
           player.drop(item);
+        
     }
     
     /**
@@ -227,7 +230,7 @@ public class Game
      * muestra un mensaje de error por pantalla
      * @param command es el comando que indica la direccion a la que quiere ir
      */
-    public void go(Command command)
+    private void go(Command command)
     {
          if(!command.hasSecondWord()) {
                 // if there is no second word, we don't know where to go...
