@@ -23,16 +23,16 @@ public class CommandWords
     public CommandWords()
     {
         comandos = new HashMap<>();
-        comandos.put("go",Option.GO);
-        comandos.put("quit",Option.QUIT);
-        comandos.put("help",Option.HELP);
-        comandos.put("look",Option.LOOK);
-        comandos.put("eat",Option.EAT);
-        comandos.put("back",Option.BACK);
-        comandos.put("take",Option.TAKE);
-        comandos.put("drop",Option.DROP);
-        comandos.put("items",Option.ITEMS);
-        comandos.put("unknown",Option.UNKNOWN);
+        comandos.put("ir",Option.GO);
+        comandos.put("quitar",Option.QUIT);
+        comandos.put("ayuda",Option.HELP);
+        comandos.put("mirar",Option.LOOK);
+        comandos.put("comer",Option.EAT);
+        comandos.put("volver",Option.BACK);
+        comandos.put("coger",Option.TAKE);
+        comandos.put("tirar",Option.DROP);
+        comandos.put("inventario",Option.ITEMS);
+       
     }
 
     /**
@@ -42,13 +42,7 @@ public class CommandWords
      */
     public boolean isCommand(String aString)
     {
-        Set<String> commands = comandos.keySet();
-        for(String com:commands) {
-            if(com.equals(aString))
-                return true;
-        }
-        // if we get here, the string was not found in the commands
-        return false;
+         return comandos.containsKey(aString);
     }
 
     /**
@@ -56,9 +50,9 @@ public class CommandWords
      */
     public void showAll()
     {
-        Set<String> commands = comandos.keySet();
+        
         String allCommands =" ";
-        for(String com:commands)
+        for(String com:comandos.keySet())
         {
             allCommands += com + " ";
         }
@@ -73,7 +67,7 @@ public class CommandWords
      */
     public Option getCommandWord(String commandWord)
     {
-        Option option = comandos.get("unknown");
+        Option option = Option.UNKNOWN;
         if(comandos.get(commandWord)!= null)
         {
             option = comandos.get(commandWord);
