@@ -100,9 +100,9 @@ public class Game
     private void printWelcome()
     {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-        System.out.println("Si necesitas ayuda,teclea 'ayuda'");
+        System.out.println("Bienvenido al Mundo de Zuul!");
+        System.out.println("World of Zuul es un nuevo,increiblemente aburrido juego de aventuras.");
+        System.out.println("Si necesitas ayuda,teclea " + Option.HELP.getComando());
         System.out.println();
         player.look();
 
