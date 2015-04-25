@@ -7,24 +7,41 @@
  */
 public enum Option
 {
-    GO(),
+    GO("ir"),
 
-    QUIT(),
+    QUIT("quitar"),
 
-    HELP(),
+    HELP("ayuda"),
 
-    LOOK(),
+    LOOK("mirar"),
 
-    EAT(),
+    EAT("comer"),
 
-    BACK(),
+    BACK("volver"),
     
-    TAKE(),
+    TAKE("coger"),
 
-    DROP(),
+    DROP("tirar"),
 
-    ITEMS(),
+    ITEMS("inventario"),
 
-    UNKNOWN();
-
+    UNKNOWN(" ");
+    private String comando;
+    
+    /**
+     * Constructor del enum Option
+     * @param comando es el comando asociado a la constante
+     */
+    Option(String comando)
+    {
+        this.comando = comando;
+    }
+    
+    /**
+     * Metodo que devuelve el comando asociado a la constante
+     */
+    public String getComando()
+    {
+        return comando;
+    }
 }
