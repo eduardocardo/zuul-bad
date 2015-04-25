@@ -123,40 +123,71 @@ public class Game
         }
 
         Option commandWord = command.getCommandWord();
-        if (commandWord == Option.HELP) {
-            printHelp();
-        }
-        else if (commandWord == Option.GO) {
-            go(command);
-        }
-
-        else if (commandWord == Option.QUIT) {
-            wantToQuit = quit(command);
-        }
-        else if(commandWord == Option.LOOK)
+        switch(commandWord)
         {
-            player.look();
-        }
-        else if(commandWord == Option.EAT)
-        {
-            player.eat();
-        }
-        else if(commandWord == Option.BACK)
-        {
-            player.backRoom();
-        }
-        else if(commandWord == Option.TAKE)
-        {
+            case HELP :
+                printHelp();
+                break;
+            case GO:
+                go(command);
+                break;
+            case QUIT:
+                wantToQuit = quit(command);
+                break;
+            case LOOK :
+                player.look();
+                break;
+            case EAT:
+                player.eat();
+                break;
+            case BACK:
+                player.backRoom();
+                break;
+            case TAKE:
                 take(command);
+                break;
+            case DROP:
+                drop(command);
+                break;
+            case ITEMS:
+                player.infoItems();
+                break;
+
         }
-        else if(commandWord == Option.DROP)
-        {
-            drop(command);
-        }
-        else if(commandWord == Option.ITEMS)
-        {
-            player.infoItems();
-        }
+        //         if (commandWord == Option.HELP) {
+        //             printHelp();
+        //         }
+        //         else if (commandWord == Option.GO) {
+        //             go(command);
+        //         }
+        // 
+        //         else if (commandWord == Option.QUIT) {
+        //             wantToQuit = quit(command);
+        //         }
+        //         else if(commandWord == Option.LOOK)
+        //         {
+        //             player.look();
+        //         }
+        //         else if(commandWord == Option.EAT)
+        //         {
+        //             player.eat();
+        //         }
+        //         else if(commandWord == Option.BACK)
+        //         {
+        //             player.backRoom();
+        //         }
+        //         else if(commandWord == Option.TAKE)
+        //         {
+        //                 take(command);
+        //         }
+        //         else if(commandWord == Option.DROP)
+        //         {
+        //             drop(command);
+        //         }
+        //         else if(commandWord == Option.ITEMS)
+        //         {
+        //             player.infoItems();
+        //         }
 
         return wantToQuit;
     }
@@ -197,34 +228,34 @@ public class Game
      */
     private void take(Command command)
     {
-         if(!command.hasSecondWord()) {
-                // if there is no second word, we don't know where to go...
-                System.out.println("Coger que?");
-                return ;
-            }
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Coger que?");
+            return ;
+        }
 
-         int name = Integer.parseInt(command.getSecondWord());
-         player.take(name);
+        int name = Integer.parseInt(command.getSecondWord());
+        player.take(name);
     }
-    
+
     /**
      * Metodo que intenta tirar,un objeto que tiene en el inventario,en la habitacion
      * @param command es el comando que indica que tiene que tirar
      */
     private void drop(Command command)
     {
-          if(!command.hasSecondWord()) {
-                // if there is no second word, we don't know where to go...
-                System.out.println("Tirar que?");
-                return;
-            }
-         
-          int item = Integer.parseInt(command.getSecondWord());
-          
-          player.drop(item);
-        
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Tirar que?");
+            return;
+        }
+
+        int item = Integer.parseInt(command.getSecondWord());
+
+        player.drop(item);
+
     }
-    
+
     /**
      * Metodo que intenta ir en una direccion indica por el parametro,si direccion no es valida
      * muestra un mensaje de error por pantalla
@@ -232,13 +263,13 @@ public class Game
      */
     private void go(Command command)
     {
-         if(!command.hasSecondWord()) {
-                // if there is no second word, we don't know where to go...
-                System.out.println("Ir donde?");
-                return;
-            }
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Ir donde?");
+            return;
+        }
 
-         String direction = command.getSecondWord();
-         player.goRoom(direction);
+        String direction = command.getSecondWord();
+        player.goRoom(direction);
     }
 }
