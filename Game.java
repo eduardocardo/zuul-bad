@@ -183,7 +183,7 @@ public class Game
     private boolean quit(Command command) 
     {
         if(command.hasSecondWord()) {
-            System.out.println("Quit what?");
+            System.out.println("Quitar?");
             return false;
         }
         else {
@@ -199,7 +199,7 @@ public class Game
     {
          if(!command.hasSecondWord()) {
                 // if there is no second word, we don't know where to go...
-                System.out.println("take what?");
+                System.out.println("Coger que?");
                 return ;
             }
 
@@ -215,7 +215,7 @@ public class Game
     {
           if(!command.hasSecondWord()) {
                 // if there is no second word, we don't know where to go...
-                System.out.println("drop what?");
+                System.out.println("Tirar que?");
                 return;
             }
          
@@ -234,7 +234,7 @@ public class Game
     {
          if(!command.hasSecondWord()) {
                 // if there is no second word, we don't know where to go...
-                System.out.println("Go where?");
+                System.out.println("Ir donde?");
                 return;
             }
 
