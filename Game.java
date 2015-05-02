@@ -133,34 +133,34 @@ public class Game
         switch(commandWord)
         {
             case HELP :
-                printHelp();
-                break;
+            printHelp();
+            break;
             case GO:
-                go(command);
-                break;
+            go(command);
+            break;
             case QUIT:
-                wantToQuit = quit(command);
-                break;
+            wantToQuit = quit(command);
+            break;
             case LOOK :
-                player.look();
-                break;
+            player.look();
+            break;
             case EAT:
-                player.eat();
-                break;
+            player.eat();
+            break;
             case BACK:
-                player.backRoom();
-                break;
+            player.backRoom();
+            break;
             case TAKE:
-                take(command);
-                break;
+            take(command);
+            break;
             case DROP:
-                drop(command);
-                break;
+            drop(command);
+            break;
             case ITEMS:
-                player.infoItems();
-                break;
+            player.infoItems();
+            break;
             case ATTACK:
-                wantToQuit = attack(command);
+            wantToQuit = attack(command);
         }
         return wantToQuit;
     }
@@ -208,7 +208,14 @@ public class Game
         }
 
         int name = Integer.parseInt(command.getSecondWord());
-        player.take(name);
+        if(!player.isCombats())
+        {
+            player.take(name);
+        }
+        else
+        {
+            System.out.println("No puedes coger nada estando en combate");
+        }
     }
 
     /**
@@ -224,9 +231,14 @@ public class Game
         }
 
         int item = Integer.parseInt(command.getSecondWord());
-
-        player.drop(item);
-
+        if(!player.isCombats())
+        {
+            player.drop(item);
+        }
+        else
+        {
+            System.out.println("No puedes arrojar nada en combate");
+        }
     }
 
     /**
@@ -235,7 +247,7 @@ public class Game
      * @param command es el comando que indica la direccion a la que quiere ir
      */
     private void go(Command command)
-    {
+    {      
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Ir donde?");
@@ -243,9 +255,16 @@ public class Game
         }
 
         String direction = command.getSecondWord();
-        player.goRoom(direction);
+        if(!player.isCombats())
+        {
+            player.goRoom(direction);
+        }
+        else
+        {
+            System.out.println("No puedes irte en combate");
+        }
     }
-    
+
     /**
      * Metodo que intenta atacar a un pnj indicado por parametro,si el parametro no es valido muestra
      * mensaje por pantalla
@@ -253,12 +272,12 @@ public class Game
      */
     private boolean attack(Command command)
     {
-         if(!command.hasSecondWord()) {
+        if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Atacar que?");
             return false;
         }
-        
+
         int pnj = Integer.parseInt(command.getSecondWord());
         return player.atacar(pnj);
     }

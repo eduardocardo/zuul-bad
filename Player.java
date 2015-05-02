@@ -88,7 +88,14 @@ public class Player
      */
     public void eat()
     {
-        System.out.println("You have eaten now and you are not hungry any more");
+        if(!isCombats())
+        {
+            System.out.println("You have eaten now and you are not hungry any more");
+        }
+        else
+        {
+            System.out.println("Para que quieres comer en combate?");
+        }
     }
 
     /**
@@ -97,7 +104,14 @@ public class Player
      */
     public void look()
     {
-        System.out.println(currentRoom.getLongDescription());
+        if(!isCombats())
+        {
+            System.out.println(currentRoom.getLongDescription());
+        }
+        else
+        {
+            System.out.println("No te despistes y centrate en el combate");
+        }
     }
 
     /**
@@ -129,14 +143,21 @@ public class Player
      */
     public void backRoom()
     {
-        if(!stacks.empty())
+        if(!isCombats())
         {
-            currentRoom =stacks.pop();
-            look();
+            if(!stacks.empty())
+            {
+                currentRoom =stacks.pop();
+                look();
+            }
+            else
+            {
+                System.out.println("No puedes volver a atras");
+            }
         }
         else
         {
-            System.out.println("No puedes volver a atras");
+            System.out.println("No puedes volver a atras en combate");
         }
     }
 
@@ -240,7 +261,7 @@ public class Player
             System.out.println("No tienes ningun item");
         }
     }
-    
+
     /**
      * Metodo que devuelve la vida que tiene el player
      * @return la vida del player
@@ -249,7 +270,7 @@ public class Player
     {
         return vida;
     }
-    
+
     /**
      * Metodo que indica si un player esta vivo o no
      * @return true si esta muerto y false si esta vivo
@@ -258,7 +279,7 @@ public class Player
     {
         return isDead();
     }
-    
+
     /**
      * Metodo que devuelve si el player esta en combate
      * @return true si esta en combate,false si no lo esta
@@ -267,7 +288,7 @@ public class Player
     {
         return isCombats;
     }
-    
+
     /**
      * Metodo que disminuye la vida del player
      */
@@ -279,7 +300,7 @@ public class Player
             isDead = true;
         }
     }
-    
+
     /**
      * Metodo por el cual el player ataca a un pnj que esta presente en la habitacion
      * @param id es el numero identificativo del pnj al que se quiere atacar
@@ -300,13 +321,13 @@ public class Player
                 //gana el asalto y resta una vida al pnj
                 pnj.restarVida();
                 System.out.println("Le quitas una vida a " + pnj.getNombre());
-                
+
                 if(pnj.isDead())
                 {
                     //el pnj muere dropeando un item en la habitacion
                     currentRoom.addItem(pnj.getItem());
                     System.out.println("Has matado a " + pnj.getNombre() + " y encuentras en sus pertencias "
-                    + "\n" + pnj.getItem().toString());
+                        + "\n" + pnj.getItem().toString());
                     currentRoom.removePnj(pnj);
                     isCombats = false;
                 }
