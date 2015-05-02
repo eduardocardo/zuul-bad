@@ -51,6 +51,13 @@ public class Game
         Item mesa = new Item("mesa","llena de polvo",5f,false,2);
         Item antorcha = new Item("antorcha","de madera",1f,true,1);
         Item olla = new Item("olla","muy oxidada",9f,true,4);
+        Item pocion1 = new Item("pocion","que identificas como curativa",1f,true,5);
+        Item pocion2 = new Item("pocion","que identificas como curativa",1f,true,6);
+        Item medallon = new Item("medallon","dorado y al dorso ves un pequeño boton",1f,true,7);
+        Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,medallon,false);
+        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,pocion1,false);
+        tunel.addPnj(kobold);
+        salaOscura.addPnj(troll);
         armeria.addItem(espada);
         salaPrincipal.addItem(mesa);
         salaPrincipal.addItem(antorcha);

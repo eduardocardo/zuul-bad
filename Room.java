@@ -24,6 +24,8 @@ public class Room
 
     //arrayList que representa los items que puede haber en la habitacion
     private ArrayList<Item> itemsRoom;
+    //arrayList que almacena los pnj que puede haber en la habitacion
+    private ArrayList<Pnj> pnjs;
 
     /**
      * Create a room described "description". Initially, it has
@@ -36,7 +38,7 @@ public class Room
         this.description = description;
         exits = new HashMap<String,Room>();
         itemsRoom = new ArrayList();
-
+        pnjs = new ArrayList();
     }
 
     /**
@@ -103,6 +105,13 @@ public class Room
                 description +=  "\n" + "hay un objeto" + " " + it.toString();
             }
         }
+        if(pnjs.size() > 0)
+        {
+            for(Pnj pnj : pnjs)
+            {
+                description += "\n" + "en la habitacion ves " + " " + pnj.toString();
+            }
+        }
         description +=  "\n" + getExitString();
         return description;
     }
@@ -149,5 +158,47 @@ public class Room
             i++;
         }
         return it;
+    }
+    
+    /**
+     * Metodo que añade un objeto tipo Pnj a la habitacion
+     * @param pnj es el pnj que se añade a la habitacion
+     */
+    public void addPnj(Pnj pnj)
+    {
+        pnjs.add(pnj);
+    }
+    
+    /**
+     * Metodo que elimina un pnj de la habitacion
+     * @param pnj es el pnj que se elimina de la habitacion
+     */
+    public void removePnj(Pnj pnj)
+    {
+        pnjs.remove(pnj);
+    }
+    
+    /**
+     * Metodo que al pasarle el id de un pnj te devuelve es pnj
+     * @param id es el numero identificativo del pnj
+     * @return si esa id se encuentra en la habitacion devuelve el pnj,si no devuelve null
+     */
+    public Pnj getPnj(int id)
+    {
+        Pnj pnj = null;
+        int i = 0;
+        //se considera que no se ha encotrado el pnj
+        boolean encontrado = false;
+        while( i < pnjs.size() && !encontrado)
+        {
+            //si el id pasado por parametro coincide con alguno existente en la habitacion
+            if(pnjs.get(i).getId() == id)
+            {
+                pnj = pnjs.get(i);
+                encontrado = true;
+            }
+            i++;
+        }
+        return pnj;
     }
 }
