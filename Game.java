@@ -25,7 +25,7 @@ public class Game
      */
     public Game() 
     {
-        player = new Player(10f);
+        player = new Player(10f,4);
         createRooms();
         parser = new Parser();
 
@@ -159,7 +159,8 @@ public class Game
             case ITEMS:
                 player.infoItems();
                 break;
-
+            case ATTACK:
+                wantToQuit = attack(command);
         }
         return wantToQuit;
     }
@@ -243,5 +244,22 @@ public class Game
 
         String direction = command.getSecondWord();
         player.goRoom(direction);
+    }
+    
+    /**
+     * Metodo que intenta atacar a un pnj indicado por parametro,si el parametro no es valido muestra
+     * mensaje por pantalla
+     * @param command es el comando que indica el pnj al que se quiere atacar
+     */
+    private boolean attack(Command command)
+    {
+         if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Atacar que?");
+            return false;
+        }
+        
+        int pnj = Integer.parseInt(command.getSecondWord());
+        return player.atacar(pnj);
     }
 }

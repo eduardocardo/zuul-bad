@@ -101,7 +101,7 @@ public class Pnj
     
     /**
      * Metodo que indica si el pnj esta vivo o no
-     * @return true si el pj esta vivo,false si esta muerto
+     * @return true si el pj esta muerto,false si esta vivo
      */
     public boolean isDead()
     {
