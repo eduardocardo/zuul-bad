@@ -130,5 +130,11 @@ public class Pnj
         return rnd.nextInt(20) + 1;
     }
     
-   
+   /**
+    * Metodo que muestra informacion sobre el pnj
+    */
+   public String toString()
+   {
+       return "(" + id + ")" + " " + nombre + " " + descripcion; 
+   }
 }
