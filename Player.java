@@ -436,14 +436,14 @@ public class Player
         }
         return isDead;
     }
-    
+
     /**
      * Metodo que permite al player un determinado item
      * @param idItem es el numero identificador del item que se quiere beber
      */
     public void beber(int idItem)
     {
-       //primero se comprueba que el jugador tiene ese item en su inventario
+        //primero se comprueba que el jugador tiene ese item en su inventario
         Item item = null;
         boolean encontrado = false;
         int i = 0;
@@ -458,30 +458,30 @@ public class Player
             }
             i++;
         }
-       if(encontrado)
-       {
-           //se comprueba que ese item se puede beber
-           if(item.sePuedeBeber())
-           {
-               Random rnd = new Random();
-               int curacion = rnd.nextInt(3) + 1;
-               vida += curacion;
-               if(vida > vidaInicial)
-               {
-                   vida = vidaInicial;
-               }
-               items.remove(item);
-               System.out.println("Tras beber la pocion te has curado " + curacion + " puntos de vida");
-               System.out.println("Vida actual : " + vida);
-           }
-           else
-           {
-               System.out.println("Ese item no se puede beber");
-           }
-       }
-       else
-       {
-           System.out.println("No puedes beberte un item que no tienes");
+        if(encontrado)
+        {
+            //se comprueba que ese item se puede beber
+            if(item.sePuedeBeber())
+            {
+                Random rnd = new Random();
+                int curacion = rnd.nextInt(3) + 1;
+                vida += curacion;
+                if(vida > vidaInicial)
+                {
+                    vida = vidaInicial;
+                }
+                items.remove(item);
+                System.out.println("Tras beber la pocion te has curado " + curacion + " puntos de vida");
+                System.out.println("Vida actual : " + vida);
+            }
+            else
+            {
+                System.out.println("Ese item no se puede beber");
+            }
+        }
+        else
+        {
+            System.out.println("No puedes beberte un item que no tienes");
         }
     }
 }

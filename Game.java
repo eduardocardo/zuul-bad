@@ -36,12 +36,12 @@ public class Game
      */
     private void createRooms()
     {
-        Room entrada, salaPrincipal, salaOscura, armeria, cocina,despensa,calabozo,tunel;
+        Room entrada, salaPrincipal, salaTortura, armeria, cocina,despensa,calabozo,tunel;
 
         // create the rooms
         entrada = new Room("entrada de la torre");
         salaPrincipal = new Room("estas en la sala principal");
-        salaOscura = new Room("entras a una sala en la que no ves nada");
+        salaTortura = new Room("entras a una sala en la que no ves nada");
         armeria = new Room("llegas a la armeria");
         cocina = new Room("entras en lo que parece una cocina");
         despensa = new Room("te encuentras en la despensa");
@@ -57,7 +57,7 @@ public class Game
         Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,pocion2,false);
         Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,medallon,false);
         tunel.addPnj(kobold);
-        salaOscura.addPnj(troll);
+        salaTortura.addPnj(troll);
         armeria.addItem(espada);
         salaPrincipal.addItem(mesa);
         salaPrincipal.addItem(antorcha);
@@ -71,13 +71,13 @@ public class Game
         salaPrincipal.setExit("south",entrada);
         salaPrincipal.setExit("west",cocina);
         calabozo.setExit("west",salaPrincipal);
-        calabozo.setExit("southEast",salaOscura);
+        calabozo.setExit("southEast",salaTortura);
         armeria.setExit("south",salaPrincipal);
         cocina.setExit("east",salaPrincipal);
         cocina.setExit("west",despensa);
         despensa.setExit("east",cocina);
         despensa.setExit("southEast",tunel);
-        salaOscura.setExit("northWest",calabozo);
+        salaTortura.setExit("northWest",calabozo);
         tunel.setExit("northWest",despensa);
 
         player.setCurrentRoom(entrada); // start game outside
