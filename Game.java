@@ -161,6 +161,9 @@ public class Game
             break;
             case ATTACK:
             wantToQuit = attack(command);
+            break;
+            case FLEE:
+            wantToQuit = flee(command);
         }
         return wantToQuit;
     }
@@ -280,5 +283,23 @@ public class Game
 
         int pnj = Integer.parseInt(command.getSecondWord());
         return player.atacar(pnj);
+    }
+    
+    /**
+     * Metodo por el cual el player puede huir de de un combate
+     * @param command es el comando que indica de que pnj se quiere huir
+     * @return true si el player muere en la huida,false en los demas casos
+     */
+    private boolean flee(Command command)
+    {
+        
+        if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Huir de quien?");
+            return false;
+        }
+        
+        int pnj = Integer.parseInt(command.getSecondWord());
+        return player.huir(pnj);
     }
 }

@@ -25,7 +25,7 @@ public enum Option
 
     ITEMS("inventario"),
     ATTACK("atacar"),
-
+    FLEE("huir"),
     UNKNOWN(" ");
     private String comando;
     
