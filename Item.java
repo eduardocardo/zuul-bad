@@ -19,6 +19,8 @@ public class Item
     private int id;
     //
     private static int currentId = 1;
+    //indica si el item se puede beber o no
+    private boolean sePuedeBeber;
 
     /**
      *  Constructor de la clase Item
@@ -26,7 +28,7 @@ public class Item
      *  @param descrip es la decripcion del objeto
      *  @param peso es el peso que tiene el objeto,por defecto 1 kg
      */
-    public Item(String nombre,String descrip,float peso,boolean coger,int id)
+    public Item(String nombre,String descrip,float peso,boolean coger,int id,boolean sePuedeBeber)
     {
         this.nombre = nombre;
         this.descripcion = descrip;
@@ -41,6 +43,7 @@ public class Item
         this.coger = coger;
         this.id = currentId;
         currentId++;
+        this.sePuedeBeber = sePuedeBeber;
     }
 
     /**
@@ -93,5 +96,14 @@ public class Item
     public int getId()
     {
         return id;
+    }
+    
+    /**
+     * Metodo que devuelve si un item se puede beber o no
+     * @return true si se puede beber,false si no se puede
+     */
+    public boolean sePuedeBeber()
+    {
+        return sePuedeBeber;
     }
 }

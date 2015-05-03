@@ -36,32 +36,33 @@ public class Game
      */
     private void createRooms()
     {
-        Room entrada, salaPrincipal, salaOscura, armeria, cocina,despensa,calabozo,tunel;
+        Room entrada, salaPrincipal, salaTortura, armeria, cocina,despensa,calabozo,tunel;
 
         // create the rooms
         entrada = new Room("entrada de la torre");
         salaPrincipal = new Room("estas en la sala principal");
-        salaOscura = new Room("entras a una sala en la que no ves nada");
+        salaTortura = new Room("entras a una sala en la que no ves nada");
         armeria = new Room("llegas a la armeria");
         cocina = new Room("entras en lo que parece una cocina");
         despensa = new Room("te encuentras en la despensa");
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
         tunel = new Room("has encontrado un tunel en el que no ves nada");
-        Item espada = new Item("espada","vieja y afilada",2.5f,true,3);
-        Item mesa = new Item("mesa","llena de polvo",5f,false,2);
-        Item antorcha = new Item("antorcha","de madera",1f,true,1);
-        Item olla = new Item("olla","muy oxidada",9f,true,4);
-        Item pocion1 = new Item("pocion","que identificas como curativa",1f,true,5);
-        Item pocion2 = new Item("pocion","que identificas como curativa",1f,true,6);
-        Item medallon = new Item("medallon","dorado y al dorso ves un pequeño boton",1f,true,7);
-        Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,medallon,false);
-        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,pocion1,false);
+        Item espada = new Item("espada","vieja y afilada",2.5f,true,3,false);
+        Item mesa = new Item("mesa","llena de polvo",5f,false,2,false);
+        Item antorcha = new Item("antorcha","de madera",1f,true,1,false);
+        Item olla = new Item("olla","muy oxidada",9f,true,4,false);
+        Item pocion1 = new Item("pocion","que identificas como curativa",1f,true,5,true);
+        Item pocion2 = new Item("pocion","que identificas como curativa",1f,true,6,true);
+        Item medallon = new Item("medallon","dorado y al dorso ves un pequeño boton",1f,true,7,false);
+        Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,pocion2,false);
+        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,medallon,false);
         tunel.addPnj(kobold);
-        salaOscura.addPnj(troll);
+        salaTortura.addPnj(troll);
         armeria.addItem(espada);
         salaPrincipal.addItem(mesa);
         salaPrincipal.addItem(antorcha);
         cocina.addItem(olla);
+        cocina.addItem(pocion1);
 
         // initialise room exits
         entrada.setExit("north",salaPrincipal);
@@ -70,13 +71,13 @@ public class Game
         salaPrincipal.setExit("south",entrada);
         salaPrincipal.setExit("west",cocina);
         calabozo.setExit("west",salaPrincipal);
-        calabozo.setExit("southEast",salaOscura);
+        calabozo.setExit("southEast",salaTortura);
         armeria.setExit("south",salaPrincipal);
         cocina.setExit("east",salaPrincipal);
         cocina.setExit("west",despensa);
         despensa.setExit("east",cocina);
         despensa.setExit("southEast",tunel);
-        salaOscura.setExit("northWest",calabozo);
+        salaTortura.setExit("northWest",calabozo);
         tunel.setExit("northWest",despensa);
 
         player.setCurrentRoom(entrada); // start game outside
@@ -164,6 +165,10 @@ public class Game
             break;
             case FLEE:
             wantToQuit = flee(command);
+            break;
+            case DRINK:
+            drink(command);
+            break;
         }
         return wantToQuit;
     }
@@ -301,5 +306,20 @@ public class Game
         
         int pnj = Integer.parseInt(command.getSecondWord());
         return player.huir(pnj);
+    }
+    
+    /**
+     * Metodo por el cual el player puede beber un determinado item pasado por parametro
+     * @param command es el comando que indica que item quiere beber
+     */
+    public void drink(Command command)
+    {
+         if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Beber que?");
+            return;
+        }
+        int item = Integer.parseInt(command.getSecondWord());
+        player.beber(item);
     }
 }
