@@ -47,21 +47,22 @@ public class Game
         despensa = new Room("te encuentras en la despensa");
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
         tunel = new Room("has encontrado un tunel en el que no ves nada");
-        Item espada = new Item("espada","vieja y afilada",2.5f,true,3);
-        Item mesa = new Item("mesa","llena de polvo",5f,false,2);
-        Item antorcha = new Item("antorcha","de madera",1f,true,1);
-        Item olla = new Item("olla","muy oxidada",9f,true,4);
-        Item pocion1 = new Item("pocion","que identificas como curativa",1f,true,5);
-        Item pocion2 = new Item("pocion","que identificas como curativa",1f,true,6);
-        Item medallon = new Item("medallon","dorado y al dorso ves un pequeño boton",1f,true,7);
-        Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,medallon,false);
-        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,pocion1,false);
+        Item espada = new Item("espada","vieja y afilada",2.5f,true,3,false);
+        Item mesa = new Item("mesa","llena de polvo",5f,false,2,false);
+        Item antorcha = new Item("antorcha","de madera",1f,true,1,false);
+        Item olla = new Item("olla","muy oxidada",9f,true,4,false);
+        Item pocion1 = new Item("pocion","que identificas como curativa",1f,true,5,true);
+        Item pocion2 = new Item("pocion","que identificas como curativa",1f,true,6,true);
+        Item medallon = new Item("medallon","dorado y al dorso ves un pequeño boton",1f,true,7,false);
+        Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,pocion2,false);
+        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,medallon,false);
         tunel.addPnj(kobold);
         salaOscura.addPnj(troll);
         armeria.addItem(espada);
         salaPrincipal.addItem(mesa);
         salaPrincipal.addItem(antorcha);
         cocina.addItem(olla);
+        cocina.addItem(pocion1);
 
         // initialise room exits
         entrada.setExit("north",salaPrincipal);
