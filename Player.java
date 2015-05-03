@@ -33,6 +33,8 @@ public class Player
     private static final int TIRADA_CRITICA = 20;
     //cte que indica el valor de un tirada para tener exito cuando el player huye
     private static final int ATAQUE_OPORTUNIDAD = 13;
+    //indica la vida inicial del player
+    private int vidaInicial;
 
     /**
      * Constructor for objects of class Player
@@ -47,6 +49,7 @@ public class Player
         if(vida > VIDA_MIN && vida <= VIDA_MAX)
         {
             this.vida = vida;
+            vidaInicial = vida;
         }
         isDead = false;
         isCombats = false;
@@ -338,6 +341,7 @@ public class Player
                 {
                     System.out.println("Le quitas una vida a " + pnj.getNombre());
                 }
+                System.out.println("Vida del " + pnj.getNombre() + " : " + pnj.getVida());
                 //si el pnj muere
                 if(pnj.isDead())
                 {
@@ -369,6 +373,7 @@ public class Player
                 {
                     System.out.println(pnj.getNombre() + " te quita una vida");
                 }
+                System.out.println("Vida actual : " + vida);
                 //si el player muere
                 if(isDead)
                 {
@@ -391,18 +396,22 @@ public class Player
      */
     public boolean huir(int idPnj)
     {
-        Pnj pnj = currentRoom.getPnj(idPnj);
+        //primero se comprueba si esta en combate
         if(isCombats)
         {
+            //se comprueba si existe el pnj del que se quiere huir
+            Pnj pnj = currentRoom.getPnj(idPnj);
             if(pnj != null)
             {
                 isCombats = false;
+                //el pnj tiene derecho a un ataque de oportunidad
                 if(pnj.atacar() >= ATAQUE_OPORTUNIDAD)
                 {
 
                     quitarVida();
                     System.out.println("En tu huida " + pnj.getNombre() + " ha atacado un punto debil y"
                         + " te quita 1 punto de vida");
+                    System.out.println("Vida actual : " + vida);    
                     //si el player muere
                     if(isDead)
                     {
@@ -413,6 +422,7 @@ public class Player
                 else{
                     System.out.println("Consigues huir ileso y vuelves a la habitacion anterior");
                 }
+                //se huye a la habitacion anterior
                 backRoom();
             }
             else
@@ -425,5 +435,53 @@ public class Player
             System.out.println("Para que quieres huir si no estas en combate");
         }
         return isDead;
+    }
+    
+    /**
+     * Metodo que permite al player un determinado item
+     * @param idItem es el numero identificador del item que se quiere beber
+     */
+    public void beber(int idItem)
+    {
+       //primero se comprueba que el jugador tiene ese item en su inventario
+        Item item = null;
+        boolean encontrado = false;
+        int i = 0;
+        while(i < items.size() && !encontrado)
+        {
+            if(items.get(i).getId() == idItem)
+            {
+                //si nombre pasado por parametro coincide con el nombre de algun item
+                //que tiene el jugador en su inventario
+                item = items.get(i);
+                encontrado = true;
+            }
+            i++;
+        }
+       if(encontrado)
+       {
+           //se comprueba que ese item se puede beber
+           if(item.sePuedeBeber())
+           {
+               Random rnd = new Random();
+               int curacion = rnd.nextInt(3) + 1;
+               vida += curacion;
+               if(vida > vidaInicial)
+               {
+                   vida = vidaInicial;
+               }
+               items.remove(item);
+               System.out.println("Tras beber la pocion te has curado " + curacion + " puntos de vida");
+               System.out.println("Vida actual : " + vida);
+           }
+           else
+           {
+               System.out.println("Ese item no se puede beber");
+           }
+       }
+       else
+       {
+           System.out.println("No puedes beberte un item que no tienes");
+        }
     }
 }

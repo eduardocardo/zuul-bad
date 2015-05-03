@@ -165,6 +165,10 @@ public class Game
             break;
             case FLEE:
             wantToQuit = flee(command);
+            break;
+            case DRINK:
+            drink(command);
+            break;
         }
         return wantToQuit;
     }
@@ -302,5 +306,20 @@ public class Game
         
         int pnj = Integer.parseInt(command.getSecondWord());
         return player.huir(pnj);
+    }
+    
+    /**
+     * Metodo por el cual el player puede beber un determinado item pasado por parametro
+     * @param command es el comando que indica que item quiere beber
+     */
+    public void drink(Command command)
+    {
+         if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Beber que?");
+            return;
+        }
+        int item = Integer.parseInt(command.getSecondWord());
+        player.beber(item);
     }
 }
