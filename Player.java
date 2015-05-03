@@ -29,6 +29,9 @@ public class Player
     private static final int VIDA_MIN = 0;
     //cte que indica la vida maxima que puede tener un player
     private static final int VIDA_MAX = 6;
+    //cte que indica un valor de tirada critica
+    private static final int TIRADA_CRITICA = 20;
+
     /**
      * Constructor for objects of class Player
      * @param pesoMax es el peso maximo que puede llevar el jugador
@@ -320,8 +323,18 @@ public class Player
             {
                 //gana el asalto y resta una vida al pnj
                 pnj.restarVida();
-                System.out.println("Le quitas una vida a " + pnj.getNombre());
-
+                //si el player obtiene una tirada critica hace 2 daños
+                if(tirada >= TIRADA_CRITICA)
+                {
+                    pnj.restarVida();
+                    System.out.println("CRITICO!!!");
+                    System.out.println("Has atacado un punto vital y le has quitado dos "
+                        + "puntos de vida a " + pnj.getNombre());
+                }
+                else
+                {
+                    System.out.println("Le quitas una vida a " + pnj.getNombre());
+                }
                 if(pnj.isDead())
                 {
                     //el pnj muere dropeando un item en la habitacion
@@ -340,7 +353,18 @@ public class Player
             {
                 //player pierde el asalto
                 quitarVida();
-                System.out.println(pnj.getNombre() + "te quita una vida");
+                //si el pnj saca una tirada critica hace dos puntos de daño al player
+                if(pnj.atacar() == TIRADA_CRITICA)
+                {
+                    System.out.println("CRITICO!!");
+                    System.out.println(pnj.getNombre() + " ha encontrado un punto vital y "
+                        + "te ha quitado dos puntos de vida");
+                    quitarVida();
+                }
+                else
+                {
+                    System.out.println(pnj.getNombre() + " te quita una vida");
+                }
                 if(isDead)
                 {
                     System.out.println("Has sido derrotado por " + pnj.getNombre());
