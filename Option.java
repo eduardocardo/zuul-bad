@@ -24,7 +24,8 @@ public enum Option
     DROP("tirar"),
 
     ITEMS("inventario"),
-
+    ATTACK("atacar"),
+    FLEE("huir"),
     UNKNOWN(" ");
     private String comando;
     

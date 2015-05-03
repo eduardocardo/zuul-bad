@@ -1,5 +1,6 @@
 import java.util.Stack;
 import java.util.ArrayList;
+import java.util.Random;
 /**
  * Esta clase representa un jugador que entra en la torre
  * 
@@ -18,17 +19,37 @@ public class Player
     private float pesoMax;
     //arrayList que almacena los items que lleva actualmente el jugador
     private ArrayList<Item> items;
+    //indica la vida del player
+    private int vida ;
+    //indica si el player esta vivo o no
+    private boolean isDead;
+    //indica si el player esta en combate
+    private boolean isCombats;
+    //cte que indica la vida minima que puede tener un player
+    private static final int VIDA_MIN = 0;
+    //cte que indica la vida maxima que puede tener un player
+    private static final int VIDA_MAX = 6;
+    //cte que indica un valor de tirada critica
+    private static final int TIRADA_CRITICA = 20;
+    //cte que indica el valor de un tirada para tener exito cuando el player huye
+    private static final int ATAQUE_OPORTUNIDAD = 13;
 
     /**
      * Constructor for objects of class Player
      * @param pesoMax es el peso maximo que puede llevar el jugador
      */
-    public Player(float pesoMax)
+    public Player(float pesoMax,int vida)
     {
         stacks = new Stack();
         items = new ArrayList<>();
         this.peso = 0;
         this.pesoMax = pesoMax; 
+        if(vida > VIDA_MIN && vida <= VIDA_MAX)
+        {
+            this.vida = vida;
+        }
+        isDead = false;
+        isCombats = false;
     }
 
     /**
@@ -72,7 +93,14 @@ public class Player
      */
     public void eat()
     {
-        System.out.println("You have eaten now and you are not hungry any more");
+        if(!isCombats())
+        {
+            System.out.println("You have eaten now and you are not hungry any more");
+        }
+        else
+        {
+            System.out.println("Para que quieres comer en combate?");
+        }
     }
 
     /**
@@ -81,7 +109,14 @@ public class Player
      */
     public void look()
     {
-        System.out.println(currentRoom.getLongDescription());
+        if(!isCombats())
+        {
+            System.out.println(currentRoom.getLongDescription());
+        }
+        else
+        {
+            System.out.println("No te despistes y centrate en el combate");
+        }
     }
 
     /**
@@ -113,14 +148,21 @@ public class Player
      */
     public void backRoom()
     {
-        if(!stacks.empty())
+        if(!isCombats())
         {
-            currentRoom =stacks.pop();
-            look();
+            if(!stacks.empty())
+            {
+                currentRoom =stacks.pop();
+                look();
+            }
+            else
+            {
+                System.out.println("No puedes volver a atras");
+            }
         }
         else
         {
-            System.out.println("No puedes volver a atras");
+            System.out.println("No puedes volver a atras en combate");
         }
     }
 
@@ -223,5 +265,165 @@ public class Player
         {
             System.out.println("No tienes ningun item");
         }
+    }
+
+    /**
+     * Metodo que devuelve la vida que tiene el player
+     * @return la vida del player
+     */
+    public int getVida()
+    {
+        return vida;
+    }
+
+    /**
+     * Metodo que indica si un player esta vivo o no
+     * @return true si esta muerto y false si esta vivo
+     */
+    public boolean isDead()
+    {
+        return isDead();
+    }
+
+    /**
+     * Metodo que devuelve si el player esta en combate
+     * @return true si esta en combate,false si no lo esta
+     */
+    public boolean isCombats()
+    {
+        return isCombats;
+    }
+
+    /**
+     * Metodo que disminuye la vida del player
+     */
+    public void quitarVida()
+    {
+        vida--;
+        if(vida <= VIDA_MIN)
+        {
+            isDead = true;
+        }
+    }
+
+    /**
+     * Metodo por el cual el player ataca a un pnj que esta presente en la habitacion
+     * @param id es el numero identificativo del pnj al que se quiere atacar
+     * @return true si el player muere,false si no muere
+     */
+    public boolean atacar(int idPnj)
+    {
+        //primero se comprueba que el pnj al que se quiere atacar existe en la habitacion
+        Pnj pnj = currentRoom.getPnj(idPnj);
+        if(pnj != null)
+        {
+            //playe entra en combate
+            isCombats = true;
+            Random rnd = new Random();
+            int tirada = rnd.nextInt(20) + 1;
+            //se enfrenta la tirada del dado del player frente a la del pnj
+            if(tirada > pnj.atacar())
+            {
+                //gana el asalto y resta una vida al pnj
+                pnj.restarVida();
+                //si el player obtiene una tirada critica hace 2 daños
+                if(tirada >= TIRADA_CRITICA)
+                {
+                    pnj.restarVida();
+                    System.out.println("CRITICO!!!");
+                    System.out.println("Has atacado un punto vital y le has quitado dos "
+                        + "puntos de vida a " + pnj.getNombre());
+                }
+                else
+                {
+                    System.out.println("Le quitas una vida a " + pnj.getNombre());
+                }
+                //si el pnj muere
+                if(pnj.isDead())
+                {
+                    //el pnj muere dropeando un item en la habitacion
+                    currentRoom.addItem(pnj.getItem());
+                    System.out.println("Has matado a " + pnj.getNombre() + " y encuentras en sus pertencias "
+                        + "\n" + pnj.getItem().toString());
+                    currentRoom.removePnj(pnj);
+                    isCombats = false;
+                }
+            }
+            else if(tirada == pnj.atacar())
+            {
+                System.out.println(pnj.getNombre() + " ha bloqueado tu ataque");
+            }
+            else
+            {
+                //player pierde el asalto
+                quitarVida();
+                //si el pnj saca una tirada critica hace dos puntos de daño al player
+                if(pnj.atacar() == TIRADA_CRITICA)
+                {
+                    System.out.println("CRITICO!!");
+                    System.out.println(pnj.getNombre() + " ha encontrado un punto vital y "
+                        + "te ha quitado dos puntos de vida");
+                    quitarVida();
+                }
+                else
+                {
+                    System.out.println(pnj.getNombre() + " te quita una vida");
+                }
+                //si el player muere
+                if(isDead)
+                {
+                    System.out.println("Has sido derrotado por " + pnj.getNombre());
+                    System.out.println("GAME OVER");
+                }
+            }
+        }
+        else
+        {
+            System.out.println("el objetivo al que atacas no existe");
+        }
+        return isDead;
+    }
+
+    /**
+     * Metodo que permirte al player huir de un combate
+     * @param idPnj es el numero identificativo del pnj del que se quiere huir
+     * @return true si el player muere en la huida,false si escapa vivo
+     */
+    public boolean huir(int idPnj)
+    {
+        Pnj pnj = currentRoom.getPnj(idPnj);
+        if(isCombats)
+        {
+            if(pnj != null)
+            {
+                isCombats = false;
+                if(pnj.atacar() >= ATAQUE_OPORTUNIDAD)
+                {
+
+                    quitarVida();
+                    System.out.println("En tu huida " + pnj.getNombre() + " ha atacado un punto debil y"
+                        + " te quita 1 punto de vida");
+                    //si el player muere
+                    if(isDead)
+                    {
+                        System.out.println("Has sido derrotado por " + pnj.getNombre());
+                        System.out.println("GAME OVER");
+                    }
+                }
+                else{
+                    System.out.println("Consigues huir ileso y vuelves a la habitacion anterior");
+                }
+                backRoom();
+            }
+            else
+            {
+                System.out.println("No puedes huir de algo que no existe");
+            }
+        }
+        else
+        {
+            System.out.println("Para que quieres huir si no estas en combate");
+        }
+        return isDead;
     }
 }
