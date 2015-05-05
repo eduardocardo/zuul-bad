@@ -15,8 +15,8 @@ public class Equipo
     private String descripcion;
     //indica el peso del item en kg
     private float peso;
-    //indica si el objeto se puede coger
-    private boolean coger;
+    //indica el tipo de equipo,true si es arma,false si es armadura
+    private boolean tipo;
     //indica el numero identificador actual de la clase 
     private static int currentId = 1;
     //indica el bono de ataque del equipo
@@ -32,19 +32,19 @@ public class Equipo
      * @param nombre es el nombre del equipo
      * @param descripcion es una descripcion del equipo
      * @param peso es el peso que tiene
-     * @param coger indica si el objeto se puede coger o no
+     * @param coger indica el tipo de equipo
      * @param ataque es el bono de ataque del equipo
      * @param def es el bono de defensa del equipo
      * @param dura es el grado de durabilidad que tiene el equipo
      */
-    public Equipo(int id,String nombre,String descripcion,float peso,boolean coger,int ataque,int def,int dura)
+    public Equipo(int id,String nombre,String descripcion,float peso,boolean tipo,int ataque,int def,int dura)
     {
         this.id = id;
         currentId++;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.peso = peso;
-        coger = coger;
+        this.tipo = tipo;
         if(ataque > 0)
         {
             bonoAtaque = ataque;
@@ -53,14 +53,7 @@ public class Equipo
         {
             bonoAtaque = 0;
         }
-        if(def > 0)
-        {
-            bonoDefensa = def;
-        }
-        else
-        {
-            bonoDefensa = 0;
-        }
+        bonoDefensa = def;
         if(dura > 0)
         {
             durabilidad = dura;
@@ -70,7 +63,8 @@ public class Equipo
             durabilidad = 5;
         }
     }
- /**
+
+    /**
      * 
      * @return el numero identificativo del equipo 
      */
@@ -104,10 +98,10 @@ public class Equipo
 
     /**
      * Metodo que indica si el equipo se puede coger o no
-     * @return true si se puede coger,false si no se puede
+     * @return true si es arma,false si es armadura
      */
-    public boolean isCoger() {
-        return coger;
+    public boolean tipo() {
+        return tipo;
     }
 
     /**
@@ -133,12 +127,12 @@ public class Equipo
     public int getDurabilidad() {
         return durabilidad;
     }
-    
+
     public String toString()
     {
         return "(" + id + ")" + nombre + " " + descripcion + 
-                " ,peso : " + peso + "\nbono de ataque : " + bonoAtaque +
-                " ,bono de defensa : " + bonoDefensa + " ,durabilidad :" +
-                durabilidad;
+        " ,peso : " + peso + "\nbono de ataque : " + bonoAtaque +
+        " ,bono de defensa : " + bonoDefensa + " ,durabilidad :" +
+        durabilidad;
     }
 }
