@@ -37,7 +37,7 @@ public class Equipo
      * @param def es el bono de defensa del equipo
      * @param dura es el grado de durabilidad que tiene el equipo
      */
-    public Equipo(int id,String nombre,String descrip,float peso,boolean coger,int ataque,int def,int dura)
+    public Equipo(int id,String nombre,String descripcion,float peso,boolean coger,int ataque,int def,int dura)
     {
         this.id = id;
         currentId++;
@@ -137,7 +137,7 @@ public class Equipo
     public String toString()
     {
         return "(" + id + ")" + nombre + " " + descripcion + 
-                " ,peso :" + peso + " ,bono de ataque : " + bonoAtaque +
+                " ,peso : " + peso + "\nbono de ataque : " + bonoAtaque +
                 " ,bono de defensa : " + bonoDefensa + " ,durabilidad :" +
                 durabilidad;
     }

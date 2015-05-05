@@ -47,7 +47,7 @@ public class Game
         despensa = new Room("te encuentras en la despensa");
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
         tunel = new Room("has encontrado un tunel en el que no ves nada");
-        Item espada = new Item("espada","vieja y afilada",2.5f,true,3,false);
+        Equipo espada = new Equipo(1,"espada","vieja y afilada",2.5f,true,3,0,10);
         Item mesa = new Item("mesa","llena de polvo",5f,false,2,false);
         Item antorcha = new Item("antorcha","de madera",1f,true,1,false);
         Item olla = new Item("olla","muy oxidada",9f,true,4,false);
@@ -58,7 +58,7 @@ public class Game
         Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,medallon,false);
         tunel.addPnj(kobold);
         salaTortura.addPnj(troll);
-        armeria.addItem(espada);
+        armeria.addEquipo(espada);
         salaPrincipal.addItem(mesa);
         salaPrincipal.addItem(antorcha);
         cocina.addItem(olla);
