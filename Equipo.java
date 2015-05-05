@@ -135,4 +135,28 @@ public class Equipo
         " ,bono de defensa : " + bonoDefensa + " ,durabilidad :" +
         durabilidad;
     }
+    
+    /**
+     * Metodo que disminuye la durabilidad de un equipo
+     */
+    public void disminuirDurabilidad()
+    {
+        durabilidad--;
+    }
+    
+    /**
+     * Metodo que indica si un equipo se rompe
+     * @return true si se rompe el equipo,false si no se rompe
+     */
+    public boolean estaRota()
+    {
+        boolean rota = false;
+        if(durabilidad == 0)
+        {
+            rota = true;
+            bonoAtaque = 0;
+            bonoDefensa = 0;
+        }
+        return rota;
+    }
 }

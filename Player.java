@@ -329,12 +329,19 @@ public class Player
             //playe entra en combate
             isCombats = true;
             Random rnd = new Random();
-            int tirada = rnd.nextInt(20) + 1;
+            //tirada del player
+            int tirada = rnd.nextInt(20) + 1 ;
+            //a la tirada se le aplica el bono de ataque
+            int tiradaPlayer = tirada + bonoAtaque();
+            //a la tirada del pnj se le aplica el bono de defensa
+            int tiradaPnj = pnj.atacar() - bonoDefensa();
             //se enfrenta la tirada del dado del player frente a la del pnj
-            if(tirada > pnj.atacar())
+            System.out.println("Jugador saca " + tiradaPlayer + " y " + pnj.getNombre() + " saca " + tiradaPnj);
+            if(tiradaPlayer > tiradaPnj)
             {
                 //gana el asalto y resta una vida al pnj
                 pnj.restarVida();
+                
                 //si el player obtiene una tirada critica hace 2 daños
                 if(tirada >= TIRADA_CRITICA)
                 {
@@ -359,14 +366,26 @@ public class Player
                     isCombats = false;
                 }
             }
-            else if(tirada == pnj.atacar())
+            else if(tiradaPlayer == tiradaPnj)
             {
                 System.out.println(pnj.getNombre() + " ha bloqueado tu ataque");
+                //se reduce la durabilidad del arma
+                arma.disminuirDurabilidad();
+                if(arma.estaRota()) //se rompe el arma
+                {
+                    System.out.println("Tu " + arma.getNombre() + " se ha roto!!");
+                }
             }
             else
             {
                 //player pierde el asalto
                 quitarVida();
+                //se reduce la durabilidad de la armadura
+                armadura.disminuirDurabilidad();
+                if(armadura.estaRota())
+                {
+                    System.out.println("Tu " + armadura.getNombre() + " se ha roto!!");
+                }
                 //si el pnj saca una tirada critica hace dos puntos de daño al player
                 if(pnj.atacar() == TIRADA_CRITICA)
                 {
