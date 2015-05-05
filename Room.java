@@ -26,6 +26,9 @@ public class Room
     private ArrayList<Item> itemsRoom;
     //arrayList que almacena los pnj que puede haber en la habitacion
     private ArrayList<Pnj> pnjs;
+    //arrayList que reprenta el equipo que peude haber en una habitacion
+    private ArrayList<Equipo> equipo;
+   
 
     /**
      * Create a room described "description". Initially, it has
@@ -37,8 +40,9 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<String,Room>();
-        itemsRoom = new ArrayList();
-        pnjs = new ArrayList();
+        itemsRoom = new ArrayList<>();
+        pnjs = new ArrayList<>();
+        equipo = new ArrayList<>();
     }
 
     /**
@@ -110,6 +114,13 @@ public class Room
             for(Pnj pnj : pnjs)
             {
                 description += "\n" + "en la habitacion ves " + " " + pnj.toString();
+            }
+        }
+         if(equipo.size() > 0)
+        {
+            for(Equipo equi : equipo)
+            {
+                description +=  "\n" + "hay un equipo" + " " + equi.toString();
             }
         }
         description +=  "\n" + getExitString();
@@ -200,5 +211,49 @@ public class Room
             i++;
         }
         return pnj;
+    }
+    
+    /**
+     * Metodo que añade un objeto equipo a la coleccion de objetos en la habitacion
+     * @param equi es el objeto que se añade al arrayList
+     */
+    public void addEquipo(Equipo equi)
+    {
+        equipo.add(equi);
+    }
+    
+     /**
+     * Metodo que elimina un equipo de la coleccion
+     * @param equi es el objeto a eliminar
+     */
+    public void removeEquipo(Equipo equi)
+    {
+        equipo.remove(equi);
+    }
+    
+     /**
+     * Metodo que al pasarle por parametro el id de un equipo te devuelve ese equipo
+     * @param idEquipo es el numero identificador del equipo que se busca
+     * @return devuelve el equipo correspondiente a esa id si se encuentra en la habitacion,si no esta devuelve null
+     */
+    public Equipo getEquipo(int idEquipo)
+    {
+        Equipo equi = null;
+        //se considera que no se ha encontrado el item
+        boolean encontrado = false;
+        int i = 0;
+        
+        while(i < equipo.size() && !encontrado)
+        {
+            //si el nombre pasado por parametro coincide con alguno de los existentes en la habitacion
+            if(equipo.get(i).getId() == idEquipo)
+            {
+                //se guarda ese objeto
+                equi = equipo.get(i);
+                encontrado = true;
+            }
+            i++;
+        }
+        return equi;
     }
 }

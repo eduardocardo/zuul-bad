@@ -47,7 +47,10 @@ public class Game
         despensa = new Room("te encuentras en la despensa");
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
         tunel = new Room("has encontrado un tunel en el que no ves nada");
-        Item espada = new Item("espada","vieja y afilada",2.5f,true,3,false);
+        Equipo espada = new Equipo(1,"espada","vieja y afilada",2.5f,true,3,0,10);
+        Equipo hacha = new Equipo(2,"hacha","con un mango de madera",2.5f,true,4,0,10);
+        Equipo escudo = new Equipo(3,"escudo","que tiene grabado un dragon",4f,false,0,3,20);
+        Equipo escudoPaves = new Equipo(4,"escudo paves","que parece hecho por los enanos",8f,false,-2,5,20);
         Item mesa = new Item("mesa","llena de polvo",5f,false,2,false);
         Item antorcha = new Item("antorcha","de madera",1f,true,1,false);
         Item olla = new Item("olla","muy oxidada",9f,true,4,false);
@@ -58,7 +61,10 @@ public class Game
         Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,medallon,false);
         tunel.addPnj(kobold);
         salaTortura.addPnj(troll);
-        armeria.addItem(espada);
+        armeria.addEquipo(espada);
+        armeria.addEquipo(hacha);
+        armeria.addEquipo(escudo);
+        armeria.addEquipo(escudoPaves);
         salaPrincipal.addItem(mesa);
         salaPrincipal.addItem(antorcha);
         cocina.addItem(olla);
@@ -168,6 +174,12 @@ public class Game
             break;
             case DRINK:
             drink(command);
+            break;
+            case EQUIP:
+            equip(command);
+            break;
+            case EQUIPMENT :
+            System.out.println(player.mostrarEquipo());
             break;
         }
         return wantToQuit;
@@ -321,5 +333,21 @@ public class Game
         }
         int item = Integer.parseInt(command.getSecondWord());
         player.beber(item);
+    }
+    
+    /**
+     * Metodo por el cual el player se equipa un objeto pasado por parametro
+     * @param command es el comando que indica lo que se quiere equipar
+     */
+    public void equip(Command command)
+    {
+          if(!command.hasSecondWord()) {
+            // if there is no second word, we don't know where to go...
+            System.out.println("Equipar que?");
+            return;
+        }
+        
+        int equipo = Integer.parseInt(command.getSecondWord());
+        player.equipar(equipo);
     }
 }

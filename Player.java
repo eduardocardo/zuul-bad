@@ -19,7 +19,7 @@ public class Player
     private float pesoMax;
     //arrayList que almacena los items que lleva actualmente el jugador
     private ArrayList<Item> items;
-    //indica la vida del player
+    //indica la vida actual del player
     private int vida ;
     //indica si el player esta vivo o no
     private boolean isDead;
@@ -35,7 +35,10 @@ public class Player
     private static final int ATAQUE_OPORTUNIDAD = 13;
     //indica la vida inicial del player
     private int vidaInicial;
-
+    //representa un objeto equipo que sera un arma
+    private Equipo arma;
+    //representa un objeto equipo que sera una armadura
+    private Equipo armadura;
     /**
      * Constructor for objects of class Player
      * @param pesoMax es el peso maximo que puede llevar el jugador
@@ -53,6 +56,8 @@ public class Player
         }
         isDead = false;
         isCombats = false;
+        arma = null;
+        armadura = null;
     }
 
     /**
@@ -198,6 +203,7 @@ public class Player
             else if((item.getPeso() + peso) > pesoMax && item.getCoger())
             {
                 System.out.println("No puedes coger ese objeto porque superas tu limite de peso maximo");
+                System.out.println("El peso que llevas ahora es " + peso);
             }
             else
             {
@@ -323,12 +329,19 @@ public class Player
             //playe entra en combate
             isCombats = true;
             Random rnd = new Random();
-            int tirada = rnd.nextInt(20) + 1;
+            //tirada del player
+            int tirada = rnd.nextInt(20) + 1 ;
+            //a la tirada se le aplica el bono de ataque
+            int tiradaPlayer = tirada + bonoAtaque();
+            //a la tirada del pnj se le aplica el bono de defensa
+            int tiradaPnj = pnj.atacar() - bonoDefensa();
             //se enfrenta la tirada del dado del player frente a la del pnj
-            if(tirada > pnj.atacar())
+            System.out.println("Jugador saca " + tiradaPlayer + " y " + pnj.getNombre() + " saca " + tiradaPnj);
+            if(tiradaPlayer > tiradaPnj)
             {
                 //gana el asalto y resta una vida al pnj
                 pnj.restarVida();
+                
                 //si el player obtiene una tirada critica hace 2 daños
                 if(tirada >= TIRADA_CRITICA)
                 {
@@ -353,14 +366,26 @@ public class Player
                     isCombats = false;
                 }
             }
-            else if(tirada == pnj.atacar())
+            else if(tiradaPlayer == tiradaPnj)
             {
                 System.out.println(pnj.getNombre() + " ha bloqueado tu ataque");
+                //se reduce la durabilidad del arma
+                arma.disminuirDurabilidad();
+                if(arma.estaRota()) //se rompe el arma
+                {
+                    System.out.println("Tu " + arma.getNombre() + " se ha roto!!");
+                }
             }
             else
             {
                 //player pierde el asalto
                 quitarVida();
+                //se reduce la durabilidad de la armadura
+                armadura.disminuirDurabilidad();
+                if(armadura.estaRota())
+                {
+                    System.out.println("Tu " + armadura.getNombre() + " se ha roto!!");
+                }
                 //si el pnj saca una tirada critica hace dos puntos de daño al player
                 if(pnj.atacar() == TIRADA_CRITICA)
                 {
@@ -483,5 +508,125 @@ public class Player
         {
             System.out.println("No puedes beberte un item que no tienes");
         }
+    }
+
+    /**
+     * Metodo que calcula el bono de ataque que tiene el player
+     * @return el bono de ataque
+     */
+    public int bonoAtaque()
+    {
+        return arma.getBonoAtaque() + armadura.getBonoAtaque();
+    }
+
+    /**
+     * Metodo qeu calcula el bono de defensa que tiene el player
+     * @return el bono de defensa
+     */
+    public int bonoDefensa()
+    {
+        return arma.getBonoDefensa() + armadura.getBonoDefensa();
+    }
+
+    /**
+     * Metodo que permite equipar al player un objeto de tipo equipo existente en la habitacion
+     * @param idEquipo es el numero identificativo del equipo
+     * 
+     */
+    public void equipar(int idEquipo)
+    {
+        //primero se comprueba si el objeto que se quiere coger existe en la habitacion
+        Equipo objEquipo = currentRoom.getEquipo(idEquipo);
+
+        if(objEquipo != null)
+        {
+            //se comprueba si al coger el equipo se supera el limite de peso
+            if(objEquipo.getPeso() + peso <= pesoMax)
+            {
+                //se comprueba si el equipo es arma o armadura
+                if(objEquipo.tipo())
+                {
+                    //se comprueba si ya tiene equipada un arma
+                    if(arma != null) //tiene ya equipada un arma
+                    {
+                        //primero se suelta el arma equipada en la habitacion
+                        Equipo drop = arma;
+                        System.out.println("Has soltado al suelo " + drop.getNombre());
+                        currentRoom.addEquipo(drop);
+                        //ya esta el arma vacia y se equipa el nuevo arma
+                        arma = objEquipo;
+                        System.out.println("Te has equipado " + objEquipo.getNombre());
+                        //se elimina de la habitacion
+                        currentRoom.removeEquipo(objEquipo);
+                    }
+                    else //no tiene un arma equipada
+                    {
+                        arma = objEquipo;
+                        System.out.println("Te has equipado " + objEquipo.getNombre());
+                        //se elimina de la habitacion
+                        currentRoom.removeEquipo(objEquipo);
+                    }
+                }
+                else //es una armadura
+                {
+                    //se comprueba si ya tiene equipado una armadura
+                    if(armadura != null) //ya tiene una armadura equipada
+                    {
+                        //primero se dropea esa armadura 
+                        Equipo drop = armadura;
+                        System.out.println("Has soltado al suelo " + drop.getNombre());
+                        currentRoom.addEquipo(drop);
+                        //ya esta la armadura vacia y se equipa la nueva armadura
+                        armadura = objEquipo;
+                        System.out.println("Te has equipado " + objEquipo.getNombre());
+                        //se elimina la armadura de la habitacion
+                        currentRoom.removeEquipo(objEquipo);
+
+                    }
+                    else
+                    {
+                        armadura = objEquipo;
+                        System.out.println("Te has equipado " + objEquipo.getNombre());
+                        //se elimina la armadura de la habitacion
+                        currentRoom.removeEquipo(objEquipo);
+                    }
+                }
+            }
+            else //supera el limite de peso
+            {
+                System.out.println("No puedes coger ese objeto porque superas tu limite de peso maximo");
+                System.out.println("El peso que llevas ahora es " + peso);
+            }
+        }
+        else
+        {
+            System.out.println("El equipo que quieres coger no existe");
+        }
+
+    }
+    
+    /**
+     * Metodo que muestra los objetos que lleva equipado el player
+     */
+    public String mostrarEquipo()
+    {
+        String equipo ="Tienes equipado :\n";
+        if(arma == null)
+        {
+            equipo += "Arma :  vacio\n";
+        }
+        else
+        {
+            equipo += "Arma : " + arma.getNombre() + "\n";
+        }
+         if(armadura == null)
+        {
+            equipo += "Armadura :  vacio";
+        }
+        else
+        {
+            equipo +="Armadura : " + armadura.getNombre();
+        }
+        return equipo;
     }
 }
