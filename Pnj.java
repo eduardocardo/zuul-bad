@@ -25,7 +25,8 @@ public class Pnj
     private static final int VIDA_MIN = 0;
     //cte que indica el limite maximo de vida que puede tener el pnj
     private static final int VIDA_MAX = 6;
-    
+    //indica el grado de dificultad del pnj,comprende desde 1 a 5
+    private int valorDeDesafio;
 
     /**
      * Constructor for objects of class Pnj
@@ -35,14 +36,15 @@ public class Pnj
      * @param es la vida que tiene el pnj,pro defecto 2
      * @para es el objeto que puede dropear el pnj
      * @param indica si el pnj esta vivo o no
+     * @param valor es valor que indica el grado de dificultad del pnj,por defecto 2
      */
-    public Pnj(int id,String nombre,String descripcion,int vida,Item item,boolean isDead)
+    public Pnj(int id,String nombre,String descripcion,int vida,Item item,boolean isDead,int valor)
     {
         this.id = id;
         currentId++;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        if(vida > VIDA_MIN || vida <=VIDA_MAX)
+        if(vida > VIDA_MIN && vida <=VIDA_MAX)
         {
             this.vida = vida;
         }
@@ -52,6 +54,14 @@ public class Pnj
         }
         this.item = item;
         this.isDead = isDead;
+        if(valor >= 1 && valor <= 5)
+        {
+            valorDeDesafio = valor;
+        }
+        else
+        {
+            valorDeDesafio = 2;
+        }
     }
 
     /**
@@ -80,7 +90,7 @@ public class Pnj
     {
         return descripcion;
     }
-    
+
     /**
      * Metodo que devuelve la vida del pnj
      * @return la vida del pnj
@@ -89,7 +99,7 @@ public class Pnj
     {
         return vida;
     }
-    
+
     /**
      * Metodo que devuelve el item que tiene el pnj
      * @return el item que posee el pnj
@@ -98,7 +108,7 @@ public class Pnj
     {
         return item;
     }
-    
+
     /**
      * Metodo que indica si el pnj esta vivo o no
      * @return true si el pj esta muerto,false si esta vivo
@@ -107,7 +117,7 @@ public class Pnj
     {
         return isDead;
     }
-    
+
     /**
      * Metodo que disminuye la vida del pnj
      */
@@ -119,7 +129,7 @@ public class Pnj
             isDead = true;
         }
     }
-    
+
     /**
      * Metodo por el cual el pnj realiza un ataque que consiste en  tirar un dado de 20
      * @return el valor de la tirada del dado
@@ -129,12 +139,70 @@ public class Pnj
         Random rnd = new Random();
         return rnd.nextInt(20) + 1;
     }
+
+    /**
+     * Metodo que muestra informacion sobre el pnj
+     */
+    public String toString()
+    {
+        return "(" + id + ")" + " " + nombre + " " + descripcion; 
+    }
     
-   /**
-    * Metodo que muestra informacion sobre el pnj
-    */
-   public String toString()
-   {
-       return "(" + id + ")" + " " + nombre + " " + descripcion; 
-   }
+    /**
+     * Metodo que indica el bono de ataque del pnj y viene determinado por el valor de desafio
+     * @return el bono de ataque
+     */
+    public int bonoAtaque()
+    {
+        int bono = 0;
+        switch(valorDeDesafio)
+        {
+            case 1:
+            bono = 1;
+            break;
+             case 2:
+            bono = 2;
+            break;
+             case 3:
+            bono = 2;
+            break;
+             case 4:
+            bono = 3;
+            break;
+             case 5:
+            bono = 4;
+            break;
+        }
+        return bono;
+        
+    }
+    
+    /**
+     * Metodo que indica el bono de defensa del pnj y viene determinado por el valor de desafio
+     * @return el bono de defensa
+     */
+    public int bonoDefensa()
+    {
+        int bono = 0;
+        switch(valorDeDesafio)
+        {
+            case 1:
+            bono = 2;
+            break;
+             case 2:
+            bono = 1;
+            break;
+             case 3:
+            bono = 2;
+            break;
+             case 4:
+            bono = 2;
+            break;
+             case 5:
+            bono = 3;
+            break;
+        }
+        return bono;
+        
+    }
 }

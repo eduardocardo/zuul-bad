@@ -332,9 +332,9 @@ public class Player
             //tirada del player
             int tirada = rnd.nextInt(20) + 1 ;
             //a la tirada se le aplica el bono de ataque
-            int tiradaPlayer = tirada + bonoAtaque();
+            int tiradaPlayer = tirada + bonoAtaque() - pnj.bonoDefensa();
             //a la tirada del pnj se le aplica el bono de defensa
-            int tiradaPnj = pnj.atacar() - bonoDefensa();
+            int tiradaPnj = pnj.atacar() + pnj.bonoAtaque() - bonoDefensa();
             //se enfrenta la tirada del dado del player frente a la del pnj
             System.out.println("Jugador saca " + tiradaPlayer + " y " + pnj.getNombre() + " saca " + tiradaPnj);
             if(tiradaPlayer > tiradaPnj)

@@ -57,8 +57,8 @@ public class Game
         Item pocion1 = new Item("pocion","que identificas como curativa",1f,true,5,true);
         Item pocion2 = new Item("pocion","que identificas como curativa",1f,true,6,true);
         Item medallon = new Item("medallon","dorado y al dorso ves un pequeño boton",1f,true,7,false);
-        Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,pocion2,false);
-        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,medallon,false);
+        Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,pocion2,false,3);
+        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,medallon,false,1);
         tunel.addPnj(kobold);
         salaTortura.addPnj(troll);
         armeria.addEquipo(espada);
