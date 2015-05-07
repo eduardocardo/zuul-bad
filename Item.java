@@ -21,8 +21,7 @@ public class Item
     private static int currentId = 1;
     //indica si el item se puede beber o no
     private boolean sePuedeBeber;
-    //cte que indica la id del item que finaliza el juego
-    public static final int ID_END_GAME = 15;
+    
 
     /**
      *  Constructor de la clase Item

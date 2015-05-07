@@ -47,7 +47,7 @@ public class Game
         despensa = new Room("te encuentras en la despensa",true);
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias",true);
         tunel = new Room("has encontrado un tunel",true);
-        escaleras1 = new Room("estas en las escaleras que suben al primer piso",false);
+        escaleras1 = new Room("estas en las escaleras que suben al primer piso",true);
         planta1 = new Room("te encuentras en la planta 1 de la torre",true);
 
         Equipo espada = new Equipo(1,"espada","vieja y afilada",2.5f,true,3,0,10);
@@ -117,7 +117,6 @@ public class Game
             {
                 finished = player.isEndGame();
 
-               
             }
         }
         System.out.println("Thank you for playing.  Good bye.");

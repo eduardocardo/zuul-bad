@@ -41,7 +41,6 @@ public class Player
     private Equipo armadura;
     //indica si el player ha logrado el objetivo del juego
     private boolean endGame;
-    private static final int ID_END_GAME = 15;
 
     /**
      * Constructor for objects of class Player
@@ -229,19 +228,19 @@ public class Player
             {
                 //se añade el item a la coleccion
                 items.add(item);
-                
+
                 //se suma el peso del item al peso que lleva el jugador
                 peso += item.getPeso();
                 //se elimina de la habitacion ese item
                 currentRoom.removeItem(item);
                 //se indica que se ha cogido ese item
-               
+
                 System.out.println("Has cogido " + item.getNombre());
                 //si el jugador coge el item que determina el fin del juego
                 if(item.getNombre().equals("objeto"))
                 {
                     endGame = true;
-                    System.out.println("Fin juego");
+                    System.out.println("Fin juego"); 
                 }
             }
             //el objeto se puede coger pero supera el limite de peso maximo
