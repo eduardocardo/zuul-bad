@@ -39,14 +39,14 @@ public class Game
         Room entrada, salaPrincipal, salaTortura, armeria, cocina,despensa,calabozo,tunel;
 
         // create the rooms
-        entrada = new Room("entrada de la torre");
-        salaPrincipal = new Room("estas en la sala principal");
-        salaTortura = new Room("entras a una sala en la que no ves nada");
-        armeria = new Room("llegas a la armeria");
-        cocina = new Room("entras en lo que parece una cocina");
-        despensa = new Room("te encuentras en la despensa");
-        calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias");
-        tunel = new Room("has encontrado un tunel en el que no ves nada");
+        entrada = new Room("entrada de la torre",true);
+        salaPrincipal = new Room("estas en la sala principal",true);
+        salaTortura = new Room("entras a una sala en la que no ves nada",false);
+        armeria = new Room("llegas a la armeria",true);
+        cocina = new Room("entras en lo que parece una cocina",true);
+        despensa = new Room("te encuentras en la despensa",true);
+        calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias",true);
+        tunel = new Room("has encontrado un tunel en el que no ves nada",true);
         Equipo espada = new Equipo(1,"espada","vieja y afilada",2.5f,true,3,0,10);
         Equipo hacha = new Equipo(2,"hacha","con un mango de madera",2.5f,true,4,0,10);
         Equipo escudo = new Equipo(3,"escudo","que tiene grabado un dragon",4f,false,0,3,20);
@@ -54,11 +54,12 @@ public class Game
         Item mesa = new Item("mesa","llena de polvo",5f,false,2,false);
         Item antorcha = new Item("antorcha","de madera",1f,true,1,false);
         Item olla = new Item("olla","muy oxidada",9f,true,4,false);
+        Item llave = new Item("llave","dorada y muy mordisqueada",0.3f,true,3,false);
         Item pocion1 = new Item("pocion","que identificas como curativa",1f,true,5,true);
         Item pocion2 = new Item("pocion","que identificas como curativa",1f,true,6,true);
         Item medallon = new Item("medallon","dorado y al dorso ves un pequeño boton",1f,true,7,false);
         Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,pocion2,false,3);
-        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,medallon,false,1);
+        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,llave,false,1);
         tunel.addPnj(kobold);
         salaTortura.addPnj(troll);
         armeria.addEquipo(espada);

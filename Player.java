@@ -141,7 +141,38 @@ public class Player
 
         if (nextRoom == null) {
 
-            System.out.println("There is no door!");
+            System.out.println("Por ahi no hay salida!");
+        }
+        else if(!nextRoom.getEstaAbierta()) //la habitacion a la que se quiere mover no esta abierta
+        {
+            boolean encontrado = false;
+            int i = 0;
+            Item item = null;
+            //se busca en el inventario del jugador si tiene un item llave
+            while(i <items.size() && !encontrado)
+            {
+                if(items.get(i).getNombre().equals("llave"))
+                {
+                    encontrado = true;
+                    item = items.get(i);
+                }
+            }
+            //si player tiene una llave en su inventario
+            if(encontrado)
+            {
+                //se abre la habitacion
+                nextRoom.abrir();
+                //desaparece la llave,es de un solo uso
+                items.remove(item);
+                //player se mueve a la habitacion
+                stacks.push(currentRoom);
+                currentRoom = nextRoom;
+                look();
+            }
+            else
+            {
+                System.out.println("Hay un puerta cerrada que te impide el paso");
+            }
         }
         else {
             stacks.push(currentRoom);
@@ -341,7 +372,7 @@ public class Player
             {
                 //gana el asalto y resta una vida al pnj
                 pnj.restarVida();
-                
+
                 //si el player obtiene una tirada critica hace 2 daños
                 if(tirada >= TIRADA_CRITICA)
                 {
@@ -529,6 +560,7 @@ public class Player
     }
 
     /**
+
      * Metodo que permite equipar al player un objeto de tipo equipo existente en la habitacion
      * @param idEquipo es el numero identificativo del equipo
      * 
@@ -604,7 +636,7 @@ public class Player
         }
 
     }
-    
+
     /**
      * Metodo que muestra los objetos que lleva equipado el player
      */
@@ -619,7 +651,7 @@ public class Player
         {
             equipo += "Arma : " + arma.getNombre() + "\n";
         }
-         if(armadura == null)
+        if(armadura == null)
         {
             equipo += "Armadura :  vacio";
         }

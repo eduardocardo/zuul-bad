@@ -28,21 +28,22 @@ public class Room
     private ArrayList<Pnj> pnjs;
     //arrayList que reprenta el equipo que peude haber en una habitacion
     private ArrayList<Equipo> equipo;
-   
-
+    //indica si la habitacion esta abierta o no
+    private boolean estaAbierta;
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
      * "an open court yard".
      * @param description The room's description.
      */
-    public Room(String description) 
+    public Room(String description,boolean abierta) 
     {
         this.description = description;
         exits = new HashMap<String,Room>();
         itemsRoom = new ArrayList<>();
         pnjs = new ArrayList<>();
         equipo = new ArrayList<>();
+        estaAbierta = abierta;
     }
 
     /**
@@ -255,5 +256,22 @@ public class Room
             i++;
         }
         return equi;
+    }
+    
+    /**
+     * 
+     * @return true si se puede acceder a la habitacion,false si no se puede
+     */
+    public boolean getEstaAbierta()
+    {
+        return estaAbierta;
+    }
+    
+    /**
+     * Metodo que abre una habitacion
+     */
+    public void abrir()
+    {
+        estaAbierta = true;
     }
 }
