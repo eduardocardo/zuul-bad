@@ -16,7 +16,7 @@ public class Equipo
     //indica el peso del item en kg
     private float peso;
     //indica el tipo de equipo,true si es arma,false si es armadura
-    private boolean tipo;
+    private boolean arma;
     //indica el numero identificador actual de la clase 
     private static int currentId = 1;
     //indica el bono de ataque del equipo
@@ -37,22 +37,15 @@ public class Equipo
      * @param def es el bono de defensa del equipo
      * @param dura es el grado de durabilidad que tiene el equipo
      */
-    public Equipo(int id,String nombre,String descripcion,float peso,boolean tipo,int ataque,int def,int dura)
+    public Equipo(int id,String nombre,String descripcion,float peso,boolean arma,int ataque,int def,int dura)
     {
         this.id = id;
         currentId++;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.peso = peso;
-        this.tipo = tipo;
-        if(ataque > 0)
-        {
-            bonoAtaque = ataque;
-        }
-        else
-        {
-            bonoAtaque = 0;
-        }
+        this.arma = arma;
+        bonoAtaque = ataque;
         bonoDefensa = def;
         if(dura > 0)
         {
@@ -100,8 +93,8 @@ public class Equipo
      * Metodo que indica si el equipo se puede coger o no
      * @return true si es arma,false si es armadura
      */
-    public boolean tipo() {
-        return tipo;
+    public boolean EsArma() {
+        return arma;
     }
 
     /**
@@ -135,7 +128,7 @@ public class Equipo
         " ,bono de defensa : " + bonoDefensa + " ,durabilidad :" +
         durabilidad;
     }
-    
+
     /**
      * Metodo que disminuye la durabilidad de un equipo
      */
@@ -143,7 +136,7 @@ public class Equipo
     {
         durabilidad--;
     }
-    
+
     /**
      * Metodo que indica si un equipo se rompe
      * @return true si se rompe el equipo,false si no se rompe
@@ -159,4 +152,5 @@ public class Equipo
         }
         return rota;
     }
+
 }

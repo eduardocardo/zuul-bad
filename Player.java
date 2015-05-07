@@ -39,6 +39,10 @@ public class Player
     private Equipo arma;
     //representa un objeto equipo que sera una armadura
     private Equipo armadura;
+    //indica si el player ha logrado el objetivo del juego
+    private boolean endGame;
+    private static final int ID_END_GAME = 15;
+
     /**
      * Constructor for objects of class Player
      * @param pesoMax es el peso maximo que puede llevar el jugador
@@ -58,6 +62,7 @@ public class Player
         isCombats = false;
         arma = null;
         armadura = null;
+        endGame = false;
     }
 
     /**
@@ -169,6 +174,7 @@ public class Player
                 currentRoom = nextRoom;
                 look();
             }
+
             else
             {
                 System.out.println("Hay un puerta cerrada que te impide el paso");
@@ -223,12 +229,20 @@ public class Player
             {
                 //se añade el item a la coleccion
                 items.add(item);
+                
                 //se suma el peso del item al peso que lleva el jugador
                 peso += item.getPeso();
                 //se elimina de la habitacion ese item
                 currentRoom.removeItem(item);
                 //se indica que se ha cogido ese item
+               
                 System.out.println("Has cogido " + item.getNombre());
+                //si el jugador coge el item que determina el fin del juego
+                if(item.getNombre().equals("objeto"))
+                {
+                    endGame = true;
+                    System.out.println("Fin juego");
+                }
             }
             //el objeto se puede coger pero supera el limite de peso maximo
             else if((item.getPeso() + peso) > pesoMax && item.getCoger())
@@ -402,6 +416,8 @@ public class Player
                 System.out.println(pnj.getNombre() + " ha bloqueado tu ataque");
                 //se reduce la durabilidad del arma
                 arma.disminuirDurabilidad();
+                System.out.println("Tu arma pierde un punto de durabilidad");
+                System.out.println("Durabilidad restante :" + arma.getDurabilidad());
                 if(arma.estaRota()) //se rompe el arma
                 {
                     System.out.println("Tu " + arma.getNombre() + " se ha roto!!");
@@ -576,20 +592,13 @@ public class Player
             if(objEquipo.getPeso() + peso <= pesoMax)
             {
                 //se comprueba si el equipo es arma o armadura
-                if(objEquipo.tipo())
+                if(objEquipo.EsArma())
                 {
                     //se comprueba si ya tiene equipada un arma
                     if(arma != null) //tiene ya equipada un arma
                     {
-                        //primero se suelta el arma equipada en la habitacion
-                        Equipo drop = arma;
-                        System.out.println("Has soltado al suelo " + drop.getNombre());
-                        currentRoom.addEquipo(drop);
-                        //ya esta el arma vacia y se equipa el nuevo arma
-                        arma = objEquipo;
-                        System.out.println("Te has equipado " + objEquipo.getNombre());
-                        //se elimina de la habitacion
-                        currentRoom.removeEquipo(objEquipo);
+
+                        intercambiarEquipo(arma,objEquipo);
                     }
                     else //no tiene un arma equipada
                     {
@@ -604,16 +613,7 @@ public class Player
                     //se comprueba si ya tiene equipado una armadura
                     if(armadura != null) //ya tiene una armadura equipada
                     {
-                        //primero se dropea esa armadura 
-                        Equipo drop = armadura;
-                        System.out.println("Has soltado al suelo " + drop.getNombre());
-                        currentRoom.addEquipo(drop);
-                        //ya esta la armadura vacia y se equipa la nueva armadura
-                        armadura = objEquipo;
-                        System.out.println("Te has equipado " + objEquipo.getNombre());
-                        //se elimina la armadura de la habitacion
-                        currentRoom.removeEquipo(objEquipo);
-
+                        intercambiarEquipo(armadura,objEquipo);
                     }
                     else
                     {
@@ -660,5 +660,32 @@ public class Player
             equipo +="Armadura : " + armadura.getNombre();
         }
         return equipo;
+    }
+
+    /**
+     * Metodo que intercambia un objeto equipado por otro pasado por parametro
+     * @param itemEquipado es el item que se quiere quitar
+     * @param itemAEquipar es el item que se quiere equipar
+     */
+    public void intercambiarEquipo(Equipo itemEquipado,Equipo itemAEquipar)
+    {
+        //primero se suelta el objeto equipada en la habitacion
+        Equipo drop = itemEquipado;
+        System.out.println("Has soltado al suelo " + drop.getNombre());
+        currentRoom.addEquipo(drop);
+        //ya esta el arma vacia y se equipa el nuevo arma
+        itemEquipado = itemAEquipar;
+        System.out.println("Te has equipado " + itemAEquipar.getNombre());
+        //se elimina de la habitacion
+        currentRoom.removeEquipo(itemAEquipar);
+    }
+
+    /**
+     * Metodo que devuelve si el player ha logrado el objetivo del juego
+     * @return true si ha logrado el objetivo,false si no lo ha logrado
+     */
+    public boolean isEndGame()
+    {
+        return endGame;
     }
 }

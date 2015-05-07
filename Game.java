@@ -36,17 +36,20 @@ public class Game
      */
     private void createRooms()
     {
-        Room entrada, salaPrincipal, salaTortura, armeria, cocina,despensa,calabozo,tunel;
+        Room entrada, salaPrincipal, salaTortura, armeria, cocina,despensa,calabozo,tunel,escaleras1,planta1;
 
         // create the rooms
         entrada = new Room("entrada de la torre",true);
         salaPrincipal = new Room("estas en la sala principal",true);
-        salaTortura = new Room("entras a una sala en la que no ves nada",false);
+        salaTortura = new Room("entras a una sala en la que ves varios artilugios de tortura",true);
         armeria = new Room("llegas a la armeria",true);
         cocina = new Room("entras en lo que parece una cocina",true);
         despensa = new Room("te encuentras en la despensa",true);
         calabozo = new Room("entras al calabozo de la torre donde ves varias celdas vacias",true);
-        tunel = new Room("has encontrado un tunel en el que no ves nada",true);
+        tunel = new Room("has encontrado un tunel",true);
+        escaleras1 = new Room("estas en las escaleras que suben al primer piso",false);
+        planta1 = new Room("te encuentras en la planta 1 de la torre",true);
+
         Equipo espada = new Equipo(1,"espada","vieja y afilada",2.5f,true,3,0,10);
         Equipo hacha = new Equipo(2,"hacha","con un mango de madera",2.5f,true,4,0,10);
         Equipo escudo = new Equipo(3,"escudo","que tiene grabado un dragon",4f,false,0,3,20);
@@ -57,9 +60,10 @@ public class Game
         Item llave = new Item("llave","dorada y muy mordisqueada",0.3f,true,3,false);
         Item pocion1 = new Item("pocion","que identificas como curativa",1f,true,5,true);
         Item pocion2 = new Item("pocion","que identificas como curativa",1f,true,6,true);
-        Item medallon = new Item("medallon","dorado y al dorso ves un pequeño boton",1f,true,7,false);
-        Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,pocion2,false,3);
-        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,llave,false,1);
+        Item finJuego = new Item("objeto"," que finalizan el juego",0f,true,15,false);
+
+        Pnj troll = new Pnj(1,"Troll","con una piel verde y escamosa y un fuerte mal olor",4,llave,false,3);
+        Pnj kobold = new Pnj(2,"Kobold","con un sombrero pirata y segun te ve dice : Arrr!!",2,pocion2,false,1);
         tunel.addPnj(kobold);
         salaTortura.addPnj(troll);
         armeria.addEquipo(espada);
@@ -70,6 +74,7 @@ public class Game
         salaPrincipal.addItem(antorcha);
         cocina.addItem(olla);
         cocina.addItem(pocion1);
+        planta1.addItem(finJuego);
 
         // initialise room exits
         entrada.setExit("north",salaPrincipal);
@@ -77,6 +82,7 @@ public class Game
         salaPrincipal.setExit("east",calabozo);
         salaPrincipal.setExit("south",entrada);
         salaPrincipal.setExit("west",cocina);
+        salaPrincipal.setExit("northWest",escaleras1);
         calabozo.setExit("west",salaPrincipal);
         calabozo.setExit("southEast",salaTortura);
         armeria.setExit("south",salaPrincipal);
@@ -86,6 +92,9 @@ public class Game
         despensa.setExit("southEast",tunel);
         salaTortura.setExit("northWest",calabozo);
         tunel.setExit("northWest",despensa);
+        escaleras1.setExit("southEast",salaPrincipal);
+        escaleras1.setExit("north",planta1);
+        planta1.setExit("south",escaleras1);
 
         player.setCurrentRoom(entrada); // start game outside
     }
@@ -104,6 +113,12 @@ public class Game
         while (! finished) {
             Command command = parser.getCommand();
             finished = processCommand(command);
+            if(!finished)
+            {
+                finished = player.isEndGame();
+
+               
+            }
         }
         System.out.println("Thank you for playing.  Good bye.");
 
@@ -222,6 +237,7 @@ public class Game
      */
     private void take(Command command)
     {
+
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Coger que?");
@@ -237,6 +253,7 @@ public class Game
         {
             System.out.println("No puedes coger nada estando en combate");
         }
+
     }
 
     /**
@@ -245,6 +262,7 @@ public class Game
      */
     private void drop(Command command)
     {
+
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Tirar que?");
@@ -260,6 +278,7 @@ public class Game
         {
             System.out.println("No puedes arrojar nada en combate");
         }
+
     }
 
     /**
@@ -293,16 +312,18 @@ public class Game
      */
     private boolean attack(Command command)
     {
+
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Atacar que?");
-            return false;
+
         }
 
         int pnj = Integer.parseInt(command.getSecondWord());
         return player.atacar(pnj);
+
     }
-    
+
     /**
      * Metodo por el cual el player puede huir de de un combate
      * @param command es el comando que indica de que pnj se quiere huir
@@ -310,45 +331,50 @@ public class Game
      */
     private boolean flee(Command command)
     {
-        
+
         if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Huir de quien?");
             return false;
         }
-        
+
         int pnj = Integer.parseInt(command.getSecondWord());
         return player.huir(pnj);
+
     }
-    
+
     /**
      * Metodo por el cual el player puede beber un determinado item pasado por parametro
      * @param command es el comando que indica que item quiere beber
      */
     public void drink(Command command)
     {
-         if(!command.hasSecondWord()) {
+
+        if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Beber que?");
             return;
         }
         int item = Integer.parseInt(command.getSecondWord());
         player.beber(item);
+
     }
-    
+
     /**
      * Metodo por el cual el player se equipa un objeto pasado por parametro
      * @param command es el comando que indica lo que se quiere equipar
      */
     public void equip(Command command)
     {
-          if(!command.hasSecondWord()) {
+
+        if(!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Equipar que?");
             return;
         }
-        
+
         int equipo = Integer.parseInt(command.getSecondWord());
         player.equipar(equipo);
+
     }
 }
